@@ -8,20 +8,58 @@
 
 /* Begin PBXBuildFile section */
 		4A6B5CF124AE60CA004172A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF024AE60CA004172A8 /* AppDelegate.swift */; };
-		4A6B5CF324AE60CA004172A8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF224AE60CA004172A8 /* ContentView.swift */; };
 		4A6B5CF524AE60CD004172A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF424AE60CD004172A8 /* Assets.xcassets */; };
 		4A6B5CF824AE60CD004172A8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF724AE60CD004172A8 /* Preview Assets.xcassets */; };
 		4A6B5CFB24AE60CD004172A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF924AE60CD004172A8 /* LaunchScreen.storyboard */; };
+		4A6B5D0524AE6170004172A8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D0424AE6170004172A8 /* LoginView.swift */; };
+		4A6B5D0824AE62F1004172A8 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D0724AE62F1004172A8 /* Credentials.swift */; };
+		4A6B5D0B24AE6310004172A8 /* Skylark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D0A24AE6310004172A8 /* Skylark.swift */; };
+		4A6B5D0E24AE6B6C004172A8 /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D0D24AE6B6C004172A8 /* AuthenticationResponse.swift */; };
+		4A6B5D1024AE70B5004172A8 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D0F24AE70B5004172A8 /* TokenRequest.swift */; };
+		4A6B5D1324AE7212004172A8 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D1224AE7212004172A8 /* TokenResponse.swift */; };
+		4A6B5D1524AE825C004172A8 /* SeasonsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D1424AE825C004172A8 /* SeasonsResponse.swift */; };
+		4A6B5D1724AE834A004172A8 /* SeasonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D1624AE834A004172A8 /* SeasonsView.swift */; };
+		4A6B5D1924AE85E8004172A8 /* SeasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D1824AE85E8004172A8 /* SeasonView.swift */; };
+		4A6B5D1B24AE88DE004172A8 /* EventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D1A24AE88DE004172A8 /* EventResponse.swift */; };
+		4A6B5D1D24AE8A60004172A8 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D1C24AE8A60004172A8 /* EventView.swift */; };
+		4A6B5D1F24AE8E31004172A8 /* SessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D1E24AE8E31004172A8 /* SessionResponse.swift */; };
+		4A6B5D2124AE9680004172A8 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2024AE9680004172A8 /* SessionView.swift */; };
+		4A6B5D2324AEA130004172A8 /* ChannelResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2224AEA130004172A8 /* ChannelResponse.swift */; };
+		4A6B5D2524AEA2D3004172A8 /* StreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2424AEA2D3004172A8 /* StreamView.swift */; };
+		4A6B5D2724AEA7BC004172A8 /* StreamRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2624AEA7BC004172A8 /* StreamRequest.swift */; };
+		4A6B5D2924AEA8A9004172A8 /* StreamResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2824AEA8A9004172A8 /* StreamResponse.swift */; };
+		4A6B5D2C24AEA932004172A8 /* AuthorizedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2B24AEA932004172A8 /* AuthorizedKey.swift */; };
+		4A6B5D2E24AEB00C004172A8 /* AVPlayerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */; };
+		4A6B5D3024AEBC08004172A8 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2F24AEBC08004172A8 /* MenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4A6B5CED24AE60CA004172A8 /* F1TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = F1TV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A6B5CF024AE60CA004172A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4A6B5CF224AE60CA004172A8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4A6B5CF424AE60CD004172A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A6B5CF724AE60CD004172A8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4A6B5CFA24AE60CD004172A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A6B5CFC24AE60CD004172A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4A6B5D0424AE6170004172A8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		4A6B5D0724AE62F1004172A8 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		4A6B5D0A24AE6310004172A8 /* Skylark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skylark.swift; sourceTree = "<group>"; };
+		4A6B5D0D24AE6B6C004172A8 /* AuthenticationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationResponse.swift; sourceTree = "<group>"; };
+		4A6B5D0F24AE70B5004172A8 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
+		4A6B5D1224AE7212004172A8 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		4A6B5D1424AE825C004172A8 /* SeasonsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsResponse.swift; sourceTree = "<group>"; };
+		4A6B5D1624AE834A004172A8 /* SeasonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsView.swift; sourceTree = "<group>"; };
+		4A6B5D1824AE85E8004172A8 /* SeasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonView.swift; sourceTree = "<group>"; };
+		4A6B5D1A24AE88DE004172A8 /* EventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResponse.swift; sourceTree = "<group>"; };
+		4A6B5D1C24AE8A60004172A8 /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
+		4A6B5D1E24AE8E31004172A8 /* SessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResponse.swift; sourceTree = "<group>"; };
+		4A6B5D2024AE9680004172A8 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		4A6B5D2224AEA130004172A8 /* ChannelResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelResponse.swift; sourceTree = "<group>"; };
+		4A6B5D2424AEA2D3004172A8 /* StreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamView.swift; sourceTree = "<group>"; };
+		4A6B5D2624AEA7BC004172A8 /* StreamRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamRequest.swift; sourceTree = "<group>"; };
+		4A6B5D2824AEA8A9004172A8 /* StreamResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamResponse.swift; sourceTree = "<group>"; };
+		4A6B5D2B24AEA932004172A8 /* AuthorizedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizedKey.swift; sourceTree = "<group>"; };
+		4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerRepresentable.swift; sourceTree = "<group>"; };
+		4A6B5D2F24AEBC08004172A8 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,8 +92,10 @@
 		4A6B5CEF24AE60CA004172A8 /* F1TV */ = {
 			isa = PBXGroup;
 			children = (
+				4A6B5D0924AE6300004172A8 /* Networking */,
+				4A6B5D0624AE62E1004172A8 /* Data */,
+				4A6B5D0224AE613F004172A8 /* Views */,
 				4A6B5CF024AE60CA004172A8 /* AppDelegate.swift */,
-				4A6B5CF224AE60CA004172A8 /* ContentView.swift */,
 				4A6B5CF424AE60CD004172A8 /* Assets.xcassets */,
 				4A6B5CF924AE60CD004172A8 /* LaunchScreen.storyboard */,
 				4A6B5CFC24AE60CD004172A8 /* Info.plist */,
@@ -70,6 +110,79 @@
 				4A6B5CF724AE60CD004172A8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4A6B5D0224AE613F004172A8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D2A24AEA91F004172A8 /* Environment */,
+				4A6B5D0324AE6146004172A8 /* Authentication */,
+				4A6B5D1624AE834A004172A8 /* SeasonsView.swift */,
+				4A6B5D1824AE85E8004172A8 /* SeasonView.swift */,
+				4A6B5D1C24AE8A60004172A8 /* EventView.swift */,
+				4A6B5D2024AE9680004172A8 /* SessionView.swift */,
+				4A6B5D2424AEA2D3004172A8 /* StreamView.swift */,
+				4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */,
+				4A6B5D2F24AEBC08004172A8 /* MenuView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4A6B5D0324AE6146004172A8 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D0424AE6170004172A8 /* LoginView.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		4A6B5D0624AE62E1004172A8 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D1124AE70B9004172A8 /* Requests */,
+				4A6B5D0C24AE6B5F004172A8 /* Responses */,
+				4A6B5D0724AE62F1004172A8 /* Credentials.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		4A6B5D0924AE6300004172A8 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D0A24AE6310004172A8 /* Skylark.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		4A6B5D0C24AE6B5F004172A8 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D0D24AE6B6C004172A8 /* AuthenticationResponse.swift */,
+				4A6B5D1224AE7212004172A8 /* TokenResponse.swift */,
+				4A6B5D1424AE825C004172A8 /* SeasonsResponse.swift */,
+				4A6B5D1A24AE88DE004172A8 /* EventResponse.swift */,
+				4A6B5D1E24AE8E31004172A8 /* SessionResponse.swift */,
+				4A6B5D2224AEA130004172A8 /* ChannelResponse.swift */,
+				4A6B5D2824AEA8A9004172A8 /* StreamResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		4A6B5D1124AE70B9004172A8 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D0F24AE70B5004172A8 /* TokenRequest.swift */,
+				4A6B5D2624AEA7BC004172A8 /* StreamRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		4A6B5D2A24AEA91F004172A8 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D2B24AEA932004172A8 /* AuthorizedKey.swift */,
+			);
+			path = Environment;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,8 +256,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A6B5CF324AE60CA004172A8 /* ContentView.swift in Sources */,
+				4A6B5D2E24AEB00C004172A8 /* AVPlayerRepresentable.swift in Sources */,
+				4A6B5D2324AEA130004172A8 /* ChannelResponse.swift in Sources */,
+				4A6B5D0524AE6170004172A8 /* LoginView.swift in Sources */,
+				4A6B5D2524AEA2D3004172A8 /* StreamView.swift in Sources */,
+				4A6B5D1524AE825C004172A8 /* SeasonsResponse.swift in Sources */,
+				4A6B5D2924AEA8A9004172A8 /* StreamResponse.swift in Sources */,
+				4A6B5D1024AE70B5004172A8 /* TokenRequest.swift in Sources */,
+				4A6B5D3024AEBC08004172A8 /* MenuView.swift in Sources */,
+				4A6B5D1F24AE8E31004172A8 /* SessionResponse.swift in Sources */,
+				4A6B5D1D24AE8A60004172A8 /* EventView.swift in Sources */,
+				4A6B5D0B24AE6310004172A8 /* Skylark.swift in Sources */,
+				4A6B5D0824AE62F1004172A8 /* Credentials.swift in Sources */,
+				4A6B5D2124AE9680004172A8 /* SessionView.swift in Sources */,
+				4A6B5D1B24AE88DE004172A8 /* EventResponse.swift in Sources */,
+				4A6B5D1924AE85E8004172A8 /* SeasonView.swift in Sources */,
+				4A6B5D2C24AEA932004172A8 /* AuthorizedKey.swift in Sources */,
+				4A6B5D0E24AE6B6C004172A8 /* AuthenticationResponse.swift in Sources */,
+				4A6B5D2724AEA7BC004172A8 /* StreamRequest.swift in Sources */,
+				4A6B5D1324AE7212004172A8 /* TokenResponse.swift in Sources */,
 				4A6B5CF124AE60CA004172A8 /* AppDelegate.swift in Sources */,
+				4A6B5D1724AE834A004172A8 /* SeasonsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +421,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pheztech.F1TV;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pheztech.f1tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -309,7 +441,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pheztech.F1TV;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pheztech.f1tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;

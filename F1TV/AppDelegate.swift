@@ -6,6 +6,7 @@
 //  Copyright © 2020 Phez Technologies. All rights reserved.
 //
 
+import AVFoundation
 import UIKit
 import SwiftUI
 
@@ -14,15 +15,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 
-
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+		let audioSession = AVAudioSession.sharedInstance()
+		do {
+			try audioSession.setCategory(.playback, mode: .moviePlayback)
+		} catch {
+			print(error.localizedDescription)
+		}
+		
 		// Create the SwiftUI view that provides the window contents.
-		let contentView = ContentView()
+		let contentView = LoginView()
 
 		// Use a UIHostingController as window root view controller.
 		let window = UIWindow(frame: UIScreen.main.bounds)
-		window.rootViewController = UIHostingController(rootView: contentView)
+		window.rootViewController = UINavigationController(rootViewController: UIHostingController(rootView: contentView))
 		self.window = window
 		window.makeKeyAndVisible()
 		return true
