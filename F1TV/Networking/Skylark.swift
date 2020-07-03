@@ -8,6 +8,14 @@
 
 import SwiftUI
 
+extension JSONEncoder {
+	static var dependency: () -> JSONEncoder = JSONEncoder.init
+}
+
+extension JSONDecoder {
+	static var dependency: () -> JSONDecoder = JSONDecoder.init
+}
+
 class Skylark: NSObject {
 	// MARK: - Types
 	public enum HTTPMethod: String {
@@ -18,24 +26,18 @@ class Skylark: NSObject {
 	private typealias EncodedHandler = (EncodedResult) -> ()
 	public typealias SkyHandler<T: Decodable> = (Result<T, Error>) -> ()
 	
-	typealias Decoder = () -> JSONDecoder
-	typealias Encoder = () -> JSONEncoder
-	
 	// MARK: - Skylark API
 	@Environment(\.authorized) var authorize
 	
 	static var shared = Skylark()
 	
 	private var session: URLSession = .shared
-	private var decoder: Decoder
-	private var encoder: Encoder
+	private var decoder = JSONDecoder.dependency
+	private var encoder = JSONEncoder.dependency
 	
 	private var baseUrl = "https://f1tv.formula1.com"
 	
-	init (decoder: @escaping Decoder = JSONDecoder.init, encoder: @escaping Encoder = JSONEncoder.init) {
-		self.decoder = decoder
-		self.encoder = encoder
-		
+	override init () {
 		super.init()
 		
 		let config = URLSessionConfiguration.default
@@ -47,6 +49,7 @@ class Skylark: NSObject {
 		self.session = URLSession(configuration: config, delegate: self, delegateQueue: OperationQueue())
 	}
 	
+	// MARK: Authentication
 	func authenticate (with credentials: Credentials, handler: @escaping SkyHandler<AuthenticationResponse>) {
 		self.post(url: "https://api.formula1.com/v2/account/subscriber/authenticate/by-password", body: credentials) { [weak self] result in
 			self?.decode(result, handler: handler)
@@ -60,6 +63,18 @@ class Skylark: NSObject {
 		}
 	}
 	
+	// MARK: RACE 👏 WEEKEND 👏
+	func getLive (handler: @escaping SkyHandler<LiveResponse>) {
+		let parameters = [
+			"fields": "items",
+			"slug": "grand-prix-weekend-live"
+		]
+		self.get(path: "/api/sets", parameters: parameters) { [weak self] result in
+			self?.decode(result, handler: handler)
+		}
+	}
+	
+	// MARK: Archive
 	func getSeasons (handler: @escaping SkyHandler<SeasonsResponse>) {
 		let parameters = [
 			"fields": "name,has_content,eventoccurrence_urls,schedule_urls,uid",
@@ -90,7 +105,7 @@ class Skylark: NSObject {
 	
 	func getChannel (_ path: String, handler: @escaping SkyHandler<ChannelResponse>) {
 		let parameters = [
-			"fields": "ovps,driveroccurrence_urls,uid,channel_type,name,self"
+			"fields": "driveroccurrence_urls,uid,channel_type,name,self"
 		]
 		self.get(path: path, parameters: parameters) { [weak self] result in
 			self?.decode(result, handler: handler)

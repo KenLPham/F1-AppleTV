@@ -17,13 +17,32 @@ struct SignoutButton: View {
 }
 
 struct MenuView: View {
+	@State var live: LiveResponse?
+	
     var body: some View {
 		VStack {
 			NavigationLink(destination: Lazy(SeasonsView())) {
 				Text("Archive")
 			}
-		}.navigationBarTitle("F1TV").navigationBarItems(trailing: SignoutButton())
+			Optional($live.wrappedValue) { response in
+				NavigationLink(destination: Lazy(LiveView(live: response))) {
+					Text("Race Weekend")
+				}
+			}
+		}.navigationBarTitle("F1TV").navigationBarItems(trailing: SignoutButton()).onAppear(perform: load)
     }
+	
+	private func load () {
+		Skylark.shared.getLive { result in
+			switch result {
+			case .success(let response):
+				DispatchQueue.main.async {
+					self.live = response
+				}
+			default: ()
+			}
+		}
+	}
 }
 
 struct MenuView_Previews: PreviewProvider {

@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SwiftyHelper",
+        "repositoryURL": "https://github.com/KenLPham/SwiftyHelper.git",
+        "state": {
+          "branch": null,
+          "revision": "3f6ba33ee906a464cd9a4c18ae12cc0b84582a8a",
+          "version": "0.1.8"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

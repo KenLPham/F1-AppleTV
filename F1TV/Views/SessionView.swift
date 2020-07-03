@@ -12,21 +12,36 @@ struct SessionView: View {
 	var session: SessionResponse
 	@State var channels = [ChannelResponse]()
 	
+	var otherChannels: [ChannelResponse] {
+		channels.filter({ $0.type != "driver" })
+	}
+	
+	var driverChannels: [ChannelResponse] {
+		channels.filter({ $0.type == "driver" })
+	}
+	
     var body: some View {
 		List {
-			Section {
-				ForEach(channels.filter({ $0.type != "driver" })) { channel in
-					NavigationLink(destination: Lazy(StreamView(channel: channel))) {
-						Text(self.parseName(channel))
+			if !otherChannels.isEmpty {
+				Section {
+					ForEach(otherChannels) { channel in
+						NavigationLink(destination: Lazy(StreamView(channel: channel))) {
+							Text(self.parseName(channel))
+						}
 					}
 				}
 			}
-			Section(header: Text("Driver Feeds")) {
-				ForEach(channels.filter({ $0.type == "driver" })) { channel in
-					NavigationLink(destination: Lazy(StreamView(channel: channel))) {
-						Text(self.parseName(channel))
+			if !driverChannels.isEmpty {
+				Section(header: Text("Driver Feeds")) {
+					ForEach(driverChannels) { channel in
+						NavigationLink(destination: Lazy(StreamView(channel: channel))) {
+							Text(self.parseName(channel))
+						}
 					}
 				}
+			}
+			if driverChannels.isEmpty && otherChannels.isEmpty {
+				Text("No Channels Available")
 			}
 		}.navigationBarTitle(session.sessionName).onAppear(perform: load)
     }
@@ -36,7 +51,7 @@ struct SessionView: View {
 		case "driver":
 			return channel.name
 		case "other":
-			return channel.name.capitalized
+			return channel.name == "driver" ? "Tracker" : channel.name.capitalized
 		default:
 			return "Main Feed"
 		}

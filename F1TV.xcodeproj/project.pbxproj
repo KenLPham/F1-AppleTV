@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,6 +31,10 @@
 		4A6B5D2C24AEA932004172A8 /* AuthorizedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2B24AEA932004172A8 /* AuthorizedKey.swift */; };
 		4A6B5D2E24AEB00C004172A8 /* AVPlayerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */; };
 		4A6B5D3024AEBC08004172A8 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2F24AEBC08004172A8 /* MenuView.swift */; };
+		4A6B5D3324AEBE27004172A8 /* SwiftyHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 4A6B5D3224AEBE27004172A8 /* SwiftyHelper */; };
+		4A6B5D3524AEC553004172A8 /* LiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3424AEC553004172A8 /* LiveResponse.swift */; };
+		4A6B5D3724AEC695004172A8 /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3624AEC695004172A8 /* LiveView.swift */; };
+		4A6B5D3A24AEC778004172A8 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3924AEC778004172A8 /* Optional.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +64,9 @@
 		4A6B5D2B24AEA932004172A8 /* AuthorizedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizedKey.swift; sourceTree = "<group>"; };
 		4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerRepresentable.swift; sourceTree = "<group>"; };
 		4A6B5D2F24AEBC08004172A8 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		4A6B5D3424AEC553004172A8 /* LiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResponse.swift; sourceTree = "<group>"; };
+		4A6B5D3624AEC695004172A8 /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
+		4A6B5D3924AEC778004172A8 /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A6B5D3324AEBE27004172A8 /* SwiftyHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +123,7 @@
 		4A6B5D0224AE613F004172A8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4A6B5D3824AEC769004172A8 /* Components */,
 				4A6B5D2A24AEA91F004172A8 /* Environment */,
 				4A6B5D0324AE6146004172A8 /* Authentication */,
 				4A6B5D1624AE834A004172A8 /* SeasonsView.swift */,
@@ -124,6 +133,7 @@
 				4A6B5D2424AEA2D3004172A8 /* StreamView.swift */,
 				4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */,
 				4A6B5D2F24AEBC08004172A8 /* MenuView.swift */,
+				4A6B5D3624AEC695004172A8 /* LiveView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -164,6 +174,7 @@
 				4A6B5D1E24AE8E31004172A8 /* SessionResponse.swift */,
 				4A6B5D2224AEA130004172A8 /* ChannelResponse.swift */,
 				4A6B5D2824AEA8A9004172A8 /* StreamResponse.swift */,
+				4A6B5D3424AEC553004172A8 /* LiveResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -185,6 +196,14 @@
 			path = Environment;
 			sourceTree = "<group>";
 		};
+		4A6B5D3824AEC769004172A8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D3924AEC778004172A8 /* Optional.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -201,6 +220,9 @@
 			dependencies = (
 			);
 			name = F1TV;
+			packageProductDependencies = (
+				4A6B5D3224AEBE27004172A8 /* SwiftyHelper */,
+			);
 			productName = F1TV;
 			productReference = 4A6B5CED24AE60CA004172A8 /* F1TV.app */;
 			productType = "com.apple.product-type.application";
@@ -229,6 +251,9 @@
 				Base,
 			);
 			mainGroup = 4A6B5CE424AE60CA004172A8;
+			packageReferences = (
+				4A6B5D3124AEBE27004172A8 /* XCRemoteSwiftPackageReference "SwiftyHelper" */,
+			);
 			productRefGroup = 4A6B5CEE24AE60CA004172A8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -260,7 +285,9 @@
 				4A6B5D2324AEA130004172A8 /* ChannelResponse.swift in Sources */,
 				4A6B5D0524AE6170004172A8 /* LoginView.swift in Sources */,
 				4A6B5D2524AEA2D3004172A8 /* StreamView.swift in Sources */,
+				4A6B5D3524AEC553004172A8 /* LiveResponse.swift in Sources */,
 				4A6B5D1524AE825C004172A8 /* SeasonsResponse.swift in Sources */,
+				4A6B5D3724AEC695004172A8 /* LiveView.swift in Sources */,
 				4A6B5D2924AEA8A9004172A8 /* StreamResponse.swift in Sources */,
 				4A6B5D1024AE70B5004172A8 /* TokenRequest.swift in Sources */,
 				4A6B5D3024AEBC08004172A8 /* MenuView.swift in Sources */,
@@ -277,6 +304,7 @@
 				4A6B5D1324AE7212004172A8 /* TokenResponse.swift in Sources */,
 				4A6B5CF124AE60CA004172A8 /* AppDelegate.swift in Sources */,
 				4A6B5D1724AE834A004172A8 /* SeasonsView.swift in Sources */,
+				4A6B5D3A24AEC778004172A8 /* Optional.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +498,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4A6B5D3124AEBE27004172A8 /* XCRemoteSwiftPackageReference "SwiftyHelper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/KenLPham/SwiftyHelper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4A6B5D3224AEBE27004172A8 /* SwiftyHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A6B5D3124AEBE27004172A8 /* XCRemoteSwiftPackageReference "SwiftyHelper" */;
+			productName = SwiftyHelper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4A6B5CE524AE60CA004172A8 /* Project object */;
 }

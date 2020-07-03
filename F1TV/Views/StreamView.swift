@@ -9,23 +9,11 @@
 import AVKit
 import SwiftUI
 
-struct Optional<Value, Content: View>: View {
-	var value: Value?
-	var content: (Value) -> Content
-	
-	init (_ value: Value?, content: @escaping (Value) -> Content) {
-		self.value = value
-		self.content = content
-	}
-	
-	var body: some View {
-		value.map(content)
-	}
-}
-
 struct StreamView: View {
 	var channel: ChannelResponse
 	@State var player: AVPlayer?
+	
+	/// - TODO: figure out how to keep stream time the same when switching between streams (once we get to that)
 	
     var body: some View {
 		Optional($player.wrappedValue) { player in
