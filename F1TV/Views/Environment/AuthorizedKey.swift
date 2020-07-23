@@ -7,10 +7,31 @@
 //
 
 import SwiftUI
+import SwiftyHelper
+
+extension Data {
+	func decode<T: Decodable> (to type: T.Type) -> T? {
+		try? JSONDecoder.dependency().decode(type, from: self)
+	}
+}
 
 class AuthorizedObject: ObservableObject {
-	/// - TODO: store into keychain on set and try getting from keychain on init
-	@Published var credentials: AuthenticationResponse?
+	private var keychain = KeychainWrapper(serviceName: "com.kpham.auth", accessGroup: "f1tv")
+	
+	@Published var credentials: AuthenticationResponse? {
+		didSet {
+			if let c = credentials?.encode() {
+				print(String(data: c, encoding: .utf8))
+				keychain.set(c, forKey: "credentials")
+			}
+		}
+	}
+	
+	init () {
+		let stored = keychain.data(forKey: "credentials")?.decode(to: AuthenticationResponse.self)
+		self.credentials = stored
+		print(stored?.debugDescription)
+	}
 }
 
 struct AuthorizedKey: EnvironmentKey {

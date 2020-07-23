@@ -12,7 +12,8 @@ import SwiftUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+	@Environment(\.authorized) var authorize
+	
 	var window: UIWindow?
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -24,12 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			print(error.localizedDescription)
 		}
 		
-		// Create the SwiftUI view that provides the window contents.
-		let contentView = LoginView()
-
 		// Use a UIHostingController as window root view controller.
 		let window = UIWindow(frame: UIScreen.main.bounds)
-		window.rootViewController = UINavigationController(rootViewController: UIHostingController(rootView: contentView))
+		
+		if authorize.credentials == nil {
+			window.rootViewController = UINavigationController(rootViewController: UIHostingController(rootView: LoginView()))
+		} else { /// - TODO: validate stored credentials
+			window.rootViewController = UINavigationController(rootViewController: UIHostingController(rootView: MenuView()))
+		}
 		self.window = window
 		window.makeKeyAndVisible()
 		return true

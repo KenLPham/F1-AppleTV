@@ -17,6 +17,9 @@ struct EventView: View {
 			ForEach(sessions.sorted(by: { $0.startTime < $1.startTime })) { session in
 				NavigationLink(destination: Lazy(SessionView(session: session))) {
 					Text(session.name)
+					if session.isLive {
+						Text("Live").font(.subheadline).foregroundColor(Color(.secondaryLabel))
+					}
 				}
 			}
 		}.navigationBarTitle(event.officialName).onAppear(perform: load)

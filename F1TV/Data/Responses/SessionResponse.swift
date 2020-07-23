@@ -14,7 +14,7 @@ struct SessionResponse: Decodable, Identifiable {
 	}
 	
 	let images: [String]
-	let status: String
+	let status: String // live or replay
 	let id: String
 	let name: String
 	let sessionName: String
@@ -24,6 +24,10 @@ struct SessionResponse: Decodable, Identifiable {
 	
 	@available(*, deprecated, message: "Find a better way to only show F1 sessions in event call instead of checking after the fact")
 	var isF1: Bool {
-		series == "/api/series/seri_436bb431c3a24d7d8e200a74e1d11de4/" || series == nil
+		self.series == "/api/series/seri_436bb431c3a24d7d8e200a74e1d11de4/" || self.series == nil
+	}
+	
+	var isLive: Bool {
+		self.status == "live"
 	}
 }

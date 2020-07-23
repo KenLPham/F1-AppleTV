@@ -27,7 +27,7 @@ import Foundation
 }
 */
 
-struct AuthenticationResponse: Decodable {
+struct AuthenticationResponse: Codable {
 	enum CodingKeys: String, CodingKey {
 		case session = "SessionId", subscriber = "Subscriber", data
 	}
@@ -35,9 +35,13 @@ struct AuthenticationResponse: Decodable {
 	let session: String
 	let subscriber: SkySubscriber
 	let data: AuthenticationData
+	
+	func encode () -> Data? {
+		try? JSONEncoder.dependency().encode(self)
+	}
 }
 
-struct SkySubscriber: Decodable {
+struct SkySubscriber: Codable {
 	enum CodingKeys: String, CodingKey {
 		case first = "FirstName", last = "LastName", country = "HomeCountry", id = "Id", email = "Email"
 	}
@@ -53,7 +57,7 @@ struct SkySubscriber: Decodable {
 	}
 }
 
-struct AuthenticationData: Decodable {
+struct AuthenticationData: Codable {
 	enum CodingKeys: String, CodingKey {
 		case status = "subscriptionStatus", token = "subscriptionToken"
 	}
