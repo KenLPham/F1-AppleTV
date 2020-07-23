@@ -17,14 +17,19 @@ extension JSONDecoder {
 }
 
 class Skylark: NSObject {
+	// MARK: - Errors
+	public enum Errors: Error {
+		case unauthorized, parse(Error), connection(Error), response(String)
+	}
+	
 	// MARK: - Types
 	public enum HTTPMethod: String {
 		case get, put, post, delete
 	}
 	
-	private typealias EncodedResult = Result<Data, Error>
+	private typealias EncodedResult = Result<Data, Errors>
 	private typealias EncodedHandler = (EncodedResult) -> ()
-	public typealias SkyHandler<T: Decodable> = (Result<T, Error>) -> ()
+	public typealias SkyHandler<T: Decodable> = (Result<T, Errors>) -> ()
 	
 	// MARK: - Skylark API
 	@Environment(\.authorized) var authorize
@@ -137,7 +142,7 @@ class Skylark: NSObject {
 				let response = try decoder.decode(T.self, from: data)
 				handler(.success(response))
 			} catch {
-				handler(.failure(error))
+				handler(.failure(.parse(error)))
 			}
 		case .failure(let error):
 			handler(.failure(error))
@@ -173,9 +178,10 @@ class Skylark: NSObject {
 	
 	private func runTask (with request: URLRequest, completion: @escaping EncodedHandler) {
 		let task = session.dataTask(with: request) { (data, response, error) in
+			print(String(data: data!, encoding: .utf8) ?? "<nil>")
 			switch (data, response, error) {
 			case (_, _, let error?): // connection error
-				completion(.failure(error))
+				completion(.failure(.connection(error)))
 			case (let data?, let response?, _):
 				let status = (response as? HTTPURLResponse)?.statusCode
 				if case (200..<300)? = status {
@@ -183,9 +189,11 @@ class Skylark: NSObject {
 					completion(.success(data))
 				} else if status == 401 {
 					print("unauthorized")
+					completion(.failure(.unauthorized))
 				} else {
-					// Error
-					print(String(data: data, encoding: .utf8) ?? "<unable to decode>")
+					if let response = String(data: data, encoding: .utf8) {
+						completion(.failure(.response(response)))
+					}
 				}
 			default:
 				fatalError("Invalid response combo \(data.debugDescription), \(response.debugDescription) \(error.debugDescription)")

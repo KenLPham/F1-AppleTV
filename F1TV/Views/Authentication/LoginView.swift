@@ -25,30 +25,48 @@ struct LoginView: View {
 	
 	@State var credentials = Credentials()
 	@State var route = false
+	@State var failed = false
 	
 	var body: some View {
-		HStack {
-			Spacer()
-			VStack {
-				TextField("Email", text: $credentials.email).textContentType(.emailAddress)
-				SecureField("Password", text: $credentials.password)
-				Button("Login") {
-					print(self.credentials.debugDescription)
-					Skylark.shared.authenticate(with: self.credentials) { result in
-						switch result {
-						case .success(let response):
-							DispatchQueue.main.async {
-								self.authorize.credentials = response
-								self.route = true
+		ZStack {
+			// MARK: Main View
+			HStack {
+				Spacer()
+				VStack {
+					TextField("Email", text: $credentials.email).textContentType(.emailAddress)
+					SecureField("Password", text: $credentials.password)
+					Button("Login") {
+						print(self.credentials.debugDescription)
+						Skylark.shared.authenticate(with: self.credentials) { result in
+							switch result {
+							case .success(let response):
+								DispatchQueue.main.async {
+									self.failed = false
+									self.authorize.credentials = response
+									self.route = true
+								}
+							case .failure(let response):
+								switch response {
+								case .unauthorized:
+									DispatchQueue.main.async {
+										self.failed = true
+									}
+								default: ()
+								}
 							}
-						case .failure(let error):
-							print(error.localizedDescription)
 						}
 					}
 				}
+				Spacer()
+				NavigationLink(destination: Lazy(MenuView()), isActive: $route) { EmptyView() }.hidden()
 			}
-			Spacer()
-			NavigationLink(destination: Lazy(MenuView()), isActive: $route) { EmptyView() }.hidden()
+			// MARK: Toast
+			if failed {
+				VStack {
+					Text("Incorrect Username or Password").foregroundColor(.white).padding().background(Color.red).mask(RoundedRectangle(cornerRadius: 8, style: .continuous))
+					Spacer()
+				}
+			}
 		}.navigationBarTitle("F1TV")
     }
 }
