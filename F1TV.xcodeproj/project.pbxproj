@@ -31,10 +31,11 @@
 		4A6B5D2C24AEA932004172A8 /* AuthorizedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2B24AEA932004172A8 /* AuthorizedKey.swift */; };
 		4A6B5D2E24AEB00C004172A8 /* AVPlayerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */; };
 		4A6B5D3024AEBC08004172A8 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2F24AEBC08004172A8 /* MenuView.swift */; };
-		4A6B5D3324AEBE27004172A8 /* SwiftyHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 4A6B5D3224AEBE27004172A8 /* SwiftyHelper */; };
 		4A6B5D3524AEC553004172A8 /* LiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3424AEC553004172A8 /* LiveResponse.swift */; };
 		4A6B5D3724AEC695004172A8 /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3624AEC695004172A8 /* LiveView.swift */; };
 		4A6B5D3A24AEC778004172A8 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3924AEC778004172A8 /* Optional.swift */; };
+		4A6BB87A250590F200E9695B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 4A6BB879250590F200E9695B /* KeychainAccess */; };
+		4A6BB87D2505913D00E9695B /* SwiftyHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 4A6BB87C2505913D00E9695B /* SwiftyHelper */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		4A6B5D3424AEC553004172A8 /* LiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResponse.swift; sourceTree = "<group>"; };
 		4A6B5D3624AEC695004172A8 /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
 		4A6B5D3924AEC778004172A8 /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
+		4A6BB87E250595A700E9695B /* F1TV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = F1TV.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A6B5D3324AEBE27004172A8 /* SwiftyHelper in Frameworks */,
+				4A6BB87D2505913D00E9695B /* SwiftyHelper in Frameworks */,
+				4A6BB87A250590F200E9695B /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +103,7 @@
 		4A6B5CEF24AE60CA004172A8 /* F1TV */ = {
 			isa = PBXGroup;
 			children = (
+				4A6BB87E250595A700E9695B /* F1TV.entitlements */,
 				4A6B5D0924AE6300004172A8 /* Networking */,
 				4A6B5D0624AE62E1004172A8 /* Data */,
 				4A6B5D0224AE613F004172A8 /* Views */,
@@ -221,7 +225,8 @@
 			);
 			name = F1TV;
 			packageProductDependencies = (
-				4A6B5D3224AEBE27004172A8 /* SwiftyHelper */,
+				4A6BB879250590F200E9695B /* KeychainAccess */,
+				4A6BB87C2505913D00E9695B /* SwiftyHelper */,
 			);
 			productName = F1TV;
 			productReference = 4A6B5CED24AE60CA004172A8 /* F1TV.app */;
@@ -252,7 +257,8 @@
 			);
 			mainGroup = 4A6B5CE424AE60CA004172A8;
 			packageReferences = (
-				4A6B5D3124AEBE27004172A8 /* XCRemoteSwiftPackageReference "SwiftyHelper" */,
+				4A6BB878250590F200E9695B /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				4A6BB87B2505913D00E9695B /* XCRemoteSwiftPackageReference "SwiftyHelper" */,
 			);
 			productRefGroup = 4A6B5CEE24AE60CA004172A8 /* Products */;
 			projectDirPath = "";
@@ -440,18 +446,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				CODE_SIGN_ENTITLEMENTS = F1TV/F1TV.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"F1TV/Preview Content\"";
-				DEVELOPMENT_TEAM = VS6Q4243MH;
+				DEVELOPMENT_TEAM = FS7843V9B7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = F1TV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kpham.f1tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 13.0;
@@ -462,18 +471,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				CODE_SIGN_ENTITLEMENTS = F1TV/F1TV.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"F1TV/Preview Content\"";
-				DEVELOPMENT_TEAM = VS6Q4243MH;
+				DEVELOPMENT_TEAM = FS7843V9B7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = F1TV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kpham.f1tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 13.0;
@@ -504,20 +516,33 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4A6B5D3124AEBE27004172A8 /* XCRemoteSwiftPackageReference "SwiftyHelper" */ = {
+		4A6BB878250590F200E9695B /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/KenLPham/SwiftyHelper.git";
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.8;
+				minimumVersion = 4.2.0;
+			};
+		};
+		4A6BB87B2505913D00E9695B /* XCRemoteSwiftPackageReference "SwiftyHelper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pheztech/SwiftyHelper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.5;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4A6B5D3224AEBE27004172A8 /* SwiftyHelper */ = {
+		4A6BB879250590F200E9695B /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4A6B5D3124AEBE27004172A8 /* XCRemoteSwiftPackageReference "SwiftyHelper" */;
+			package = 4A6BB878250590F200E9695B /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		4A6BB87C2505913D00E9695B /* SwiftyHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A6BB87B2505913D00E9695B /* XCRemoteSwiftPackageReference "SwiftyHelper" */;
 			productName = SwiftyHelper;
 		};
 /* End XCSwiftPackageProductDependency section */

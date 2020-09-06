@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import SwiftyHelper
+import KeychainAccess
 
 extension Data {
 	func decode<T: Decodable> (to type: T.Type) -> T? {
@@ -16,21 +16,19 @@ extension Data {
 }
 
 class AuthorizedObject: ObservableObject {
-	private var keychain = KeychainWrapper(serviceName: "com.kpham.auth", accessGroup: "f1tv")
+	private var keychain = Keychain(service: "com.kpham.auth")
 	
-	@Published var credentials: AuthenticationResponse? {
-		didSet {
-			if let c = credentials?.encode() {
-				print(String(data: c, encoding: .utf8))
-				keychain.set(c, forKey: "credentials")
-			}
-		}
-	}
+	@Published var credentials: AuthenticationResponse?
 	
 	init () {
-		let stored = keychain.data(forKey: "credentials")?.decode(to: AuthenticationResponse.self)
-		self.credentials = stored
-		print(stored?.debugDescription)
+		self.credentials = try? keychain.getData("credentials")?.decode(to: AuthenticationResponse.self)
+	}
+	
+	func store (_ credentials: AuthenticationResponse) {
+		self.credentials = credentials
+		if let data = credentials.encode() {
+			try? keychain.set(data, key: "credentials")
+		}
 	}
 }
 

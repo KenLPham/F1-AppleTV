@@ -42,7 +42,7 @@ struct LoginView: View {
 							case .success(let response):
 								DispatchQueue.main.async {
 									self.failed = false
-									self.authorize.credentials = response
+									self.authorize.store(response)
 									self.route = true
 								}
 							case .failure(let response):

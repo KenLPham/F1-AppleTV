@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "SwiftyHelper",
-        "repositoryURL": "https://github.com/KenLPham/SwiftyHelper.git",
+        "package": "KeychainAccess",
+        "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess.git",
         "state": {
           "branch": null,
-          "revision": "3f6ba33ee906a464cd9a4c18ae12cc0b84582a8a",
-          "version": "0.1.8"
+          "revision": "3d0ea2c0806791abcc5d7f0d9f62f1cfd4a7264d",
+          "version": "4.2.0"
+        }
+      },
+      {
+        "package": "SwiftyHelper",
+        "repositoryURL": "https://github.com/pheztech/SwiftyHelper.git",
+        "state": {
+          "branch": null,
+          "revision": "6d16481e14b05b818f0d498793823bf3b8022f13",
+          "version": "0.2.5"
         }
       }
     ]
