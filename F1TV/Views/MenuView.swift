@@ -9,14 +9,19 @@
 import SwiftUI
 
 struct SignoutButton: View {
+	var action: () -> ()
+	
 	var body: some View {
-		Button("Signout") {
-			print("todo")
+		Button(action: action) {
+			Text("Signout")
 		}
 	}
 }
 
 struct MenuView: View {
+	@Environment(\.presentationMode) var presentation
+	@Environment(\.authorized) var authorize
+	
 	@State var live: LiveResponse?
 	
     var body: some View {
@@ -29,7 +34,7 @@ struct MenuView: View {
 					Text("Race Weekend")
 				}
 			}
-		}.navigationBarTitle("F1TV").navigationBarItems(trailing: SignoutButton()).onAppear(perform: load)
+		}.navigationBarTitle("F1TV").navigationBarItems(trailing: SignoutButton(action: signout)).onAppear(perform: load)
     }
 	
 	private func load () {
@@ -42,6 +47,11 @@ struct MenuView: View {
 			default: ()
 			}
 		}
+	}
+	
+	private func signout () {
+		authorize.store(nil)
+		presentation.wrappedValue.dismiss()
 	}
 }
 

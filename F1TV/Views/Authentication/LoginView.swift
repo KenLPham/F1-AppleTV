@@ -34,9 +34,8 @@ struct LoginView: View {
 				Spacer()
 				VStack {
 					TextField("Email", text: $credentials.email).textContentType(.emailAddress)
-					SecureField("Password", text: $credentials.password)
+					SecureField("Password", text: $credentials.password).textContentType(.password)
 					Button("Login") {
-						print(self.credentials.debugDescription)
 						Skylark.shared.authenticate(with: self.credentials) { result in
 							switch result {
 							case .success(let response):
@@ -67,8 +66,12 @@ struct LoginView: View {
 					Spacer()
 				}
 			}
-		}.navigationBarTitle("F1TV")
+		}.navigationBarTitle("F1TV").onAppear(perform: validate)
     }
+	
+	private func validate () {
+		self.route = authorize.credentials != nil
+	}
 }
 
 #if DEBUG

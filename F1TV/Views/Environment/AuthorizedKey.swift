@@ -24,10 +24,12 @@ class AuthorizedObject: ObservableObject {
 		self.credentials = try? keychain.getData("credentials")?.decode(to: AuthenticationResponse.self)
 	}
 	
-	func store (_ credentials: AuthenticationResponse) {
+	func store (_ credentials: AuthenticationResponse?) {
 		self.credentials = credentials
-		if let data = credentials.encode() {
+		if let data = credentials?.encode() {
 			try? keychain.set(data, key: "credentials")
+		} else {
+			try? keychain.remove("credentials")
 		}
 	}
 }
