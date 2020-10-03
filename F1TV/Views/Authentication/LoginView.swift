@@ -22,9 +22,9 @@ struct Lazy<Content: View>: View {
 
 struct LoginView: View {
 	@Environment(\.authorized) var authorize
+    @Environment(\.appState) var appState
 	
 	@State var credentials = Credentials()
-	@State var route = false
 	@State var failed = false
 	
 	var body: some View {
@@ -42,7 +42,7 @@ struct LoginView: View {
 								DispatchQueue.main.async {
 									self.failed = false
 									self.authorize.store(response)
-									self.route = true
+                                    appState.option = .authorized
 								}
 							case .failure(let response):
 								switch response {
@@ -57,7 +57,6 @@ struct LoginView: View {
 					}
 				}
 				Spacer()
-				NavigationLink(destination: Lazy(MenuView()), isActive: $route) { EmptyView() }.hidden()
 			}
 			// MARK: Toast
 			if failed {
@@ -66,12 +65,8 @@ struct LoginView: View {
 					Spacer()
 				}
 			}
-		}.navigationBarTitle("F1TV").onAppear(perform: validate)
+		}.navigationBarTitle("F1TV")
     }
-	
-	private func validate () {
-		self.route = authorize.credentials != nil
-	}
 }
 
 #if DEBUG

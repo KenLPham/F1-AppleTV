@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		375D04F92529077000127305 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 375D04F82529076F00127305 /* README.md */; };
+		375D04FC25290CDA00127305 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D04FB25290CDA00127305 /* StateView.swift */; };
 		4A6B5CF124AE60CA004172A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF024AE60CA004172A8 /* AppDelegate.swift */; };
 		4A6B5CF524AE60CD004172A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF424AE60CD004172A8 /* Assets.xcassets */; };
 		4A6B5CF824AE60CD004172A8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF724AE60CD004172A8 /* Preview Assets.xcassets */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		375D04F82529076F00127305 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		375D04FB25290CDA00127305 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		4A6B5CED24AE60CA004172A8 /* F1TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = F1TV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A6B5CF024AE60CA004172A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A6B5CF424AE60CD004172A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				4A6B5D0424AE6170004172A8 /* LoginView.swift */,
+				375D04FB25290CDA00127305 /* StateView.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			files = (
 				4A6B5D2E24AEB00C004172A8 /* AVPlayerRepresentable.swift in Sources */,
 				4A6B5D2324AEA130004172A8 /* ChannelResponse.swift in Sources */,
+				375D04FC25290CDA00127305 /* StateView.swift in Sources */,
 				4A6B5D0524AE6170004172A8 /* LoginView.swift in Sources */,
 				4A6B5D2524AEA2D3004172A8 /* StreamView.swift in Sources */,
 				4A6B5D3524AEC553004172A8 /* LiveResponse.swift in Sources */,

@@ -19,7 +19,7 @@ struct SignoutButton: View {
 }
 
 struct MenuView: View {
-	@Environment(\.presentationMode) var presentation
+    @Environment(\.appState) var appState
 	@Environment(\.authorized) var authorize
 	
 	@State var live: LiveResponse?
@@ -51,7 +51,7 @@ struct MenuView: View {
 	
 	private func signout () {
 		authorize.store(nil)
-		presentation.wrappedValue.dismiss()
+        appState.option = .notAuthorized
 	}
 }
 
