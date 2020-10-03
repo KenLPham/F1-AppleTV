@@ -13,9 +13,7 @@ Barebones F1TV app for the Apple TV (tvOS >= 13.0)
 
 ## Installation
 
-Step 1. Download project and open it in Xcode
-
-Step 2. Install app into plugged in Apple TV
+Use Xcode to upload the app to your AppleTV
 
 ## Attribution
 
