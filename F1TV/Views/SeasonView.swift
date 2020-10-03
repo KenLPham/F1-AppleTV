@@ -7,34 +7,46 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SeasonView: View {
+    @StateObject var state = ViewState()
 	var season: RaceSeason
-	@State var events = [EventResponse]()
 	
     var body: some View {
 		List {
-			ForEach(events.sorted(by: { $0.date() < $1.date() })) { event in
+            ForEach(state.events.sorted(by: { $0.date() < $1.date() })) { event in
 				NavigationLink(destination: Lazy(EventView(event: event))) {
 					Text(event.name).bold().font(.title)
 					Text(event.officialName).font(.subheadline).foregroundColor(Color(.secondaryLabel))
 				}
 			}
-		}.navigationBarTitle(season.name).onAppear(perform: load)
+        }.navigationBarTitle(season.name).onAppear {
+            state.load(season)
+        }
     }
-	
-	private func load () {
-		guard events.isEmpty else { return }
-		season.events.forEach { path in
-			Skylark.shared.getEvent(path) { result in
-				switch result {
-				case .success(let response):
-					DispatchQueue.main.async {
-						self.events.append(response)
-					}
-				default: ()
-				}
-			}
-		}
-	}
+}
+
+extension SeasonView {
+    class ViewState: ObservableObject {
+        @Environment(\.apiClient) var skylark
+        @Published var events = [EventResponse]()
+        
+        var cancellables = [AnyCancellable]()
+        
+        func load (_ season: RaceSeason) {
+            guard events.isEmpty else { return }
+            season.events.forEach { path in
+                skylark.getEvent(path).receive(on: DispatchQueue.main).sink {
+                    switch $0 {
+                    case .failure(let error):
+                        print("getEvent:", String(describing: error))
+                    case .finished: ()
+                    }
+                } receiveValue: {
+                    self.events.append($0)
+                }.store(in: &cancellables)
+            }
+        }
+    }
 }

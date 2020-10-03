@@ -7,33 +7,50 @@
 //
 
 import SwiftUI
+import Combine
 
 struct LiveView: View {
+    @StateObject var state = ViewState()
 	var live: LiveResponse
-	@State var events = [EventResponse]()
-	
+    
     var body: some View {
 		List {
-			ForEach(events.sorted(by: { $0.date() < $1.date() })) { event in
+            ForEach(state.events.sorted(by: { $0.date() < $1.date() })) { event in
 				NavigationLink(destination: Lazy(EventView(event: event))) {
 					Text(event.name).bold().font(.title)
 					Text(event.officialName).font(.subheadline).foregroundColor(Color(.secondaryLabel))
 				}
 			}
-		}.navigationBarTitle("Race Weekend").onAppear(perform: load)
+        }.navigationBarTitle("Race Weekend").onAppear {
+            state.load(live)
+        }
     }
-	
-	private func load () {
-		guard events.isEmpty else { return }
-		guard let event = live.objects.first?.items.first else { return }
-		Skylark.shared.getEvent(event.content) { result in
-			switch result {
-			case .success(let response):
-				DispatchQueue.main.async {
-					self.events.append(response)
-				}
-			default: ()
-			}
-		}
-	}
+}
+
+extension LiveView {
+    class ViewState: ObservableObject {
+        @Environment(\.apiClient) var skylark
+        @Published var events = [EventResponse]()
+        
+        var cancellables = [AnyCancellable]()
+        
+        func load (_ live: LiveResponse) {
+            guard events.isEmpty else { return }
+            guard let event = live.objects.first?.items.first else { return }
+            skylark.getEvent(event.content).receive(on: DispatchQueue.main).sink {
+                switch $0 {
+                case .failure(let error):
+                    switch error {
+                    case .unauthorized:
+                        print("show unauthed alert")
+                    default:
+                        print("authenticate:", String(describing: error))
+                    }
+                case .finished: ()
+                }
+            } receiveValue: {
+                self.events.append($0)
+            }.store(in: &cancellables)
+        }
+    }
 }

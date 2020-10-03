@@ -13,14 +13,14 @@ public struct SessionResponse: Decodable, Identifiable {
 		case images = "image_urls", status, id = "uid", name, sessionName = "session_name", startTime = "start_time", channels = "channel_urls", series = "series_url"
 	}
 	
-	let images: [String]
-	let status: String // live or replay
-	let id: String
-	let name: String
-	let sessionName: String
-	let startTime: Date
-	let channels: [String]
-	let series: String?
+    public let images: [String]
+    public let status: String // live or replay
+    public let id: String
+    public let name: String
+    public let sessionName: String
+    public let startTime: Date
+    public let channels: [String]
+    public let series: String?
 	
 	@available(*, deprecated, message: "Find a better way to only show F1 sessions in event call instead of checking after the fact")
 	var isF1: Bool {

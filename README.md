@@ -4,12 +4,12 @@
 
 ## Description
 
-Barebones F1TV app for the Apple TV (tvOS >= 13.0)
+Barebones F1TV app for the Apple TV (tvOS >= 14.0)
 
 ## Requirements
 
 - A Mac with Xcode
-- An Apple TV running tvOS >= 13.0
+- An Apple TV running tvOS >= 14.0
 
 ## Installation
 

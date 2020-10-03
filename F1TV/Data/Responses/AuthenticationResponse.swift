@@ -35,6 +35,10 @@ public struct AuthenticationResponse: Codable {
     public let session: String
     public let subscriber: SkySubscriber
     public let data: AuthenticationData
+    
+    public func encode () -> Data? {
+        try? JSONEncoder.dependency().encode(self)
+    }
 }
 
 public struct SkySubscriber: Codable {
