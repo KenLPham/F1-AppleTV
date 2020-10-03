@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SessionResponse: Decodable, Identifiable {
+public struct SessionResponse: Decodable, Identifiable {
 	enum CodingKeys: String, CodingKey {
 		case images = "image_urls", status, id = "uid", name, sessionName = "session_name", startTime = "start_time", channels = "channel_urls", series = "series_url"
 	}

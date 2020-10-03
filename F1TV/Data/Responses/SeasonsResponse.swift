@@ -8,18 +8,18 @@
 
 import Foundation
 
-struct SeasonsResponse: Decodable {
-	let objects: [RaceSeason]
+public struct SeasonsResponse: Decodable {
+    public let objects: [RaceSeason]
 }
 
-struct RaceSeason: Decodable, Identifiable {
+public struct RaceSeason: Decodable, Identifiable {
 	enum CodingKeys: String, CodingKey {
 		case schedule = "schedule_urls", events = "eventoccurrence_urls", id = "uid", hasContent = "has_content", name
 	}
 	
-	let schedule: [String]
-	let events: [String]
-	let id: String
-	let hasContent: Bool
-	let name: String
+    public let schedule: [String]
+    public let events: [String]
+    public let id: String
+    public let hasContent: Bool
+    public let name: String
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct StreamResponse: Decodable {
+public struct StreamResponse: Decodable {
 	enum CodingKeys: String, CodingKey {
 		case url = "tokenised_url"
 	}

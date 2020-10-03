@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ChannelResponse: Decodable, Identifiable {
+public struct ChannelResponse: Decodable, Identifiable {
 	enum CodingKeys: String, CodingKey {
 		case driver = "driveroccurrence_urls", id = "uid", type = "channel_type", name, key = "self"
 	}

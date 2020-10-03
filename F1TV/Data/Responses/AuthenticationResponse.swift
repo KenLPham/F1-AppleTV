@@ -27,37 +27,33 @@ import Foundation
 }
 */
 
-struct AuthenticationResponse: Codable {
+public struct AuthenticationResponse: Codable {
 	enum CodingKeys: String, CodingKey {
 		case session = "SessionId", subscriber = "Subscriber", data
 	}
 	
-	let session: String
-	let subscriber: SkySubscriber
-	let data: AuthenticationData
-	
-	func encode () -> Data? {
-		try? JSONEncoder.dependency().encode(self)
-	}
+    public let session: String
+    public let subscriber: SkySubscriber
+    public let data: AuthenticationData
 }
 
-struct SkySubscriber: Codable {
+public struct SkySubscriber: Codable {
 	enum CodingKeys: String, CodingKey {
 		case first = "FirstName", last = "LastName", country = "HomeCountry", id = "Id", email = "Email"
 	}
 	
-	let first: String
-	let last: String
-	let country: String
-	let id: Int
-	let email: String
+    public let first: String
+    public let last: String
+    public let country: String
+    public let id: Int
+    public let email: String
 	
 	var name: String {
 		"\(first) \(last)"
 	}
 }
 
-struct AuthenticationData: Codable {
+public struct AuthenticationData: Codable {
 	enum CodingKeys: String, CodingKey {
 		case status = "subscriptionStatus", token = "subscriptionToken"
 	}
@@ -68,7 +64,7 @@ struct AuthenticationData: Codable {
 
 #if DEBUG
 extension AuthenticationResponse: CustomDebugStringConvertible {
-	var debugDescription: String {
+	public var debugDescription: String {
 		"""
 		{
 			"session_id": \(session),
