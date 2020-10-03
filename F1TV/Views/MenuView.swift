@@ -17,14 +17,11 @@ struct MenuView: View {
     var body: some View {
 		VStack {
             if let response = state.live {
-                NavigationLink(destination: Lazy(LiveView(live: response))) {
-                    Text("Race Weekend")
-                }
+                NavigationLink("Race Weekend", destination: Lazy(LiveView(live: response)))
             }
-			NavigationLink(destination: Lazy(SeasonsView())) {
-				Text("Archive")
-			}
-        }.navigationBarTitle("F1TV").navigationBarItems(trailing: Button("Signout", action: signout)).onAppear(perform: state.load)
+            NavigationLink("Archive", destination: Lazy(SeasonsView()))
+            Button("Signout", action: signout)
+        }.navigationBarTitle("F1TV")/*.navigationBarItems(leading: Button("Signout", action: signout))*/.onAppear(perform: state.load)
     }
 	
 	private func signout () {
