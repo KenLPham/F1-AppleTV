@@ -23,7 +23,7 @@ struct StreamView: View {
         }.edgesIgnoringSafeArea(.all).onAppear {
             state.load(channel.key)
         }.onDisappear {
-            state.player?.pause()
+            state.playing = false
         }
     }
 }
@@ -33,11 +33,22 @@ extension StreamView {
         @Environment(\.apiClient) var skylark
         @Published var player: AVPlayer?
         
+        @Published var playing = false {
+            didSet {
+                UIApplication.shared.isIdleTimerDisabled = self.playing
+                if self.playing {
+                    player?.playImmediately(atRate: 1)
+                } else {
+                    player?.pause()
+                }
+            }
+        }
+        
         var cancellables = [AnyCancellable]()
         
         func load (_ key: String) {
             guard player == nil else {
-                player?.play()
+                self.playing = true
                 return
             }
             
@@ -54,7 +65,7 @@ extension StreamView {
                 }
             } receiveValue: {
                 self.player = AVPlayer(url: $0)
-                self.player?.playImmediately(atRate: 1)
+                self.playing = true
             }.store(in: &cancellables)
         }
     }
