@@ -14,20 +14,29 @@ struct StreamView: View {
 	@State var player: AVPlayer?
 	
 	/// - TODO: figure out how to keep stream time the same when switching between streams (once we get to that)
-	
     var body: some View {
-		Optional($player.wrappedValue) { player in
-			AVPlayerControllerRepresentable(player: player)
-		}.onAppear(perform: load)
+        
+        Group {
+            if let player = self.player {
+                AVPlayerControllerRepresentable(player: player)
+            }
+        }.edgesIgnoringSafeArea(.all).onAppear(perform: load).onDisappear {
+            player?.pause()
+        }
     }
 	
 	private func load () {
-		guard self.player == nil else { return }
+        guard self.player == nil else {
+            player?.play()
+            return
+        }
 		Skylark.shared.loadStream(from: channel.key) { result in
 			switch result {
 			case .success(let response):
 				DispatchQueue.main.async {
 					self.player = AVPlayer(url: response.url)
+                    player?.playImmediately(atRate: 1)
+                    
 				}
 			default: ()
 			}
