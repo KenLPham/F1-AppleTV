@@ -7,43 +7,32 @@
 //
 
 import SwiftUI
+import Combine
 
 extension JSONEncoder {
-	static var dependency: () -> JSONEncoder = JSONEncoder.init
+    static var dependency: () -> JSONEncoder = JSONEncoder.init
 }
 
 extension JSONDecoder {
-	static var dependency: () -> JSONDecoder = JSONDecoder.init
+    static var dependency: () -> JSONDecoder = JSONDecoder.init
 }
 
-class Skylark: NSObject {
-	// MARK: - Errors
-	public enum Errors: Error {
-		case unauthorized, parse(Error), connection(Error), response(String)
-	}
-	
-	// MARK: - Types
-	public enum HTTPMethod: String {
-		case get, put, post, delete
-	}
-	
-	private typealias EncodedResult = Result<Data, Errors>
-	private typealias EncodedHandler = (EncodedResult) -> ()
-	public typealias SkyHandler<T: Decodable> = (Result<T, Errors>) -> ()
-	
-	// MARK: - Skylark API
+public typealias APIPublisher<R: Decodable> = AnyPublisher<R, Skylark.Errors>
+
+public class Skylark: NSObject {
+    @Environment(\.appState) var appState
 	@Environment(\.authorized) var authorize
 	
-	static var shared = Skylark()
-	
 	private var session: URLSession = .shared
-	private var decoder = JSONDecoder.dependency
-	private var encoder = JSONEncoder.dependency
+    private var decoder = JSONDecoder()
+    private var encoder = JSONEncoder()
 	
 	private var baseUrl = "https://f1tv.formula1.com"
 	
-	override init () {
+	public override init () {
 		super.init()
+        
+        decoder.dateDecodingStrategy = .iso8601
 		
 		let config = URLSessionConfiguration.default
 		config.httpAdditionalHeaders = [
@@ -55,163 +44,193 @@ class Skylark: NSObject {
 	}
 	
 	// MARK: Authentication
-	func authenticate (with credentials: Credentials, handler: @escaping SkyHandler<AuthenticationResponse>) {
-		self.post(url: "https://api.formula1.com/v2/account/subscriber/authenticate/by-password", body: credentials) { [weak self] result in
-			self?.decode(result, handler: handler)
-		}
+    public func authenticate (with credentials: Credentials) -> APIPublisher<AuthenticationResponse> {
+        request(.post, url: "https://api.formula1.com/v2/account/subscriber/authenticate/by-password", body: credentials).decode(with: decoder)
 	}
 	
-	func getToken (_ access: String, handler: @escaping SkyHandler<TokenResponse>) {
-		let request = TokenRequest(token: access)
-		self.post(url: "https://f1tv-api.formula1.com/agl/1.0/unk/en/all_devices/global/authenticate", body: request) { [weak self] result in
-			self?.decode(result, handler: handler)
-		}
+    public func getToken (_ access: String) -> APIPublisher<TokenResponse> {
+        request(.post, url: "https://f1tv-api.formula1.com/agl/1.0/unk/en/all_devices/global/authenticate", body: TokenRequest(token: access)).decode(with: decoder)
 	}
 	
 	// MARK: RACE 👏 WEEKEND 👏
-	func getLive (handler: @escaping SkyHandler<LiveResponse>) {
+    public func getLive () -> APIPublisher<LiveResponse> {
 		let parameters = [
 			"fields": "items",
 			"slug": "grand-prix-weekend-live"
 		]
-		self.get(path: "/api/sets", parameters: parameters) { [weak self] result in
-			self?.decode(result, handler: handler)
-		}
+        return request(.get, path: "/api/sets", parameters: parameters).decode(with: decoder)
 	}
 	
 	// MARK: Archive
-	func getSeasons (handler: @escaping SkyHandler<SeasonsResponse>) {
+    public func getSeasons () -> APIPublisher<SeasonsResponse> {
 		let parameters = [
 			"fields": "name,has_content,eventoccurrence_urls,schedule_urls,uid",
 			"order": "-year"
 		]
-		self.get(path: "/api/race-season", parameters: parameters) { [weak self] result in
-			self?.decode(result, handler: handler)
-		}
+        return request(.get, path: "/api/race-season", parameters: parameters).decode(with: decoder)
 	}
 	
-	func getEvent (_ path: String, handler: @escaping SkyHandler<EventResponse>) {
+    public func getEvent (_ path: String) -> APIPublisher<EventResponse> {
 		let parameters = [
 			"fields": "official_name,sessionoccurrence_urls,image_urls,uid,name,start_date"
 		]
-		self.get(path: path, parameters: parameters) { [weak self] result in
-			self?.decode(result, handler: handler)
-		}
+        return request(.get, path: path, parameters: parameters).decode(with: decoder)
 	}
 	
-	func getSession (_ path: String, handler: @escaping SkyHandler<SessionResponse>) {
+    public func getSession (_ path: String) -> APIPublisher<SessionResponse> {
 		let parameters = [
 			"fields": "name,status,uid,session_name,image_urls,uid,start_time,channel_urls,series_url"
 		]
-		self.get(path: path, parameters: parameters) { [weak self] result in
-			self?.decode(result, handler: handler)
-		}
+        return request(.get, path: path, parameters: parameters).decode(with: decoder)
 	}
 	
-	func getChannel (_ path: String, handler: @escaping SkyHandler<ChannelResponse>) {
+    public func getChannel (_ path: String) -> APIPublisher<ChannelResponse> {
 		let parameters = [
 			"fields": "driveroccurrence_urls,uid,channel_type,name,self"
 		]
-		self.get(path: path, parameters: parameters) { [weak self] result in
-			self?.decode(result, handler: handler)
-		}
+        return request(.get, path: path, parameters: parameters).decode(with: decoder)
 	}
 	
-	func loadStream (from key: String, handler: @escaping SkyHandler<StreamResponse>) {
-		guard let credentails = authorize.credentials else { fatalError("Not authorized") } /// - TODO: throw error instead that will lead back to login screen
-		
-		self.getToken(credentails.data.token) { [weak self] tokenResult in
-			switch tokenResult {
-			case .success(let response):
-				let request = StreamRequest(channel: key)
-				self?.post(url: "https://f1tv.formula1.com/api/viewings/", token: response.token, body: request) { [weak self] result in
-					self?.decode(result, handler: handler)
-				}
-			default: ()
-			}
-		}
+    public func loadStream (from key: String) -> APIPublisher<StreamResponse> {
+		guard let credentails = authorize.credentials else {
+            appState.option = .notAuthorized
+            return Fail(error: Errors.unauthorized).eraseToAnyPublisher()
+        }
+        
+        return getToken(credentails.data.token).flatMap {
+            self.request(.post, url: "https://f1tv.formula1.com/api/viewings/", body: StreamRequest(channel: key), token: $0.token)
+        }.eraseToAnyPublisher().decode(with: decoder)
 	}
 	
 	// MARK: - Helper Methods
-	private func decode<T> (_ result: EncodedResult, handler: @escaping SkyHandler<T>) {
-		switch result {
-		case .success(let data):
-			do {
-				let decoder = self.decoder()
-				decoder.dateDecodingStrategy = .iso8601
-				let response = try decoder.decode(T.self, from: data)
-				handler(.success(response))
-			} catch {
-				handler(.failure(.parse(error)))
-			}
-		case .failure(let error):
-			handler(.failure(error))
-		}
+    private func request (_ method: HTTPMethod, path: String, parameters: [String: String] = [:], token: String? = nil) -> AnyPublisher<Data, Errors> {
+        let request = self.makeRequest(url: "\(baseUrl)\(path)", parameters: parameters, token: token, method: method)
+        return self.runTask(with: request)
+    }
+    
+    private func request (_ method: HTTPMethod, url: String, parameters: [String: String] = [:], token: String? = nil) -> AnyPublisher<Data, Errors> {
+        let request = self.makeRequest(url: url, parameters: parameters, token: token, method: method)
+        return self.runTask(with: request)
+    }
+    
+    private func request<T: Encodable> (_ method: HTTPMethod, url: String, parameters: [String: String] = [:], body: T, token: String? = nil) -> AnyPublisher<Data, Errors> {
+        var request = self.makeRequest(url: url, parameters: parameters, token: token, method: method)
+        do {
+            request.httpBody = try encoder.encode(body)
+        } catch {
+            return Fail(error: Errors.request(error)).eraseToAnyPublisher()
+        }
+        return self.runTask(with: request)
+    }
+    
+    // MARK: - Helper Methods
+    private func makeRequest (url: String, parameters: [String: String]?, token: String?, method: HTTPMethod) -> URLRequest {
+        var components = URLComponents(string: url)
+        if let param = parameters {
+            components?.queryItems = self.buildQueryString(from: param)
+        }
+        guard let url = components?.url else { fatalError("Invalid URL") }
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        
+        if let t = token {
+            request.setValue("JWT \(t)", forHTTPHeaderField: "Authorization")
+        }
+        
+        return request
+    }
+	
+	private func runTask (with request: URLRequest) -> AnyPublisher<Data, Errors> {
+        session.dataTaskPublisher(for: request).tryMap { result in
+            let statusCode = (result.response as? HTTPURLResponse)?.statusCode
+            
+            // MARK: DEBUGGING
+            print("response [\(statusCode ?? -1)]: \(String(data: result.data, encoding: .utf8) ?? "<nil>")")
+            
+            if case (200..<300)? = statusCode {
+                return result.data
+            } else if statusCode == 401 {
+                throw Errors.unauthorized
+            } else {
+                throw Errors.api(String(data: result.data, encoding: .utf8))
+            }
+        }.mapError {
+            switch $0 {
+            case let urlError as URLError:
+                return Errors.connection(urlError)
+            case let skylarkError as Errors:
+                return skylarkError
+            case let decodeError as DecodingError:
+                return Errors.parse(decodeError)
+            default:
+                return Errors.unknown($0)
+            }
+        }.eraseToAnyPublisher()
 	}
 	
-	private func get (path: String, parameters: [String: String] = [:], handler: @escaping EncodedHandler) {
-		let url = self.baseUrl + path
-		var request = URLRequest(url: self.build(url, with: parameters)!)
-		request.httpMethod = HTTPMethod.get.rawValue
-		self.runTask(with: request, completion: handler)
-	}
-	
-	private func post<T: Encodable> (path: String, parameters: [String: String] = [:], body: T, handler: @escaping EncodedHandler) {
-		fatalError("Not implemented")
-	}
-	
-	private func post<T: Encodable> (url: String, parameters: [String: String] = [:], token: String? = nil, body: T, handler: @escaping EncodedHandler) {
-		do {
-			var request = URLRequest(url: self.build(url, with: parameters)!)
-			request.httpMethod = HTTPMethod.post.rawValue
-			request.httpBody = try encoder().encode(body)
-			
-			if let t = token {
-				request.setValue("JWT \(t)", forHTTPHeaderField: "Authorization")
-			}
-			
-			self.runTask(with: request, completion: handler)
-		} catch {
-			print(error.localizedDescription)
-		}
-	}
-	
-	private func runTask (with request: URLRequest, completion: @escaping EncodedHandler) {
-		let task = session.dataTask(with: request) { (data, response, error) in
-			print(String(data: data!, encoding: .utf8) ?? "<nil>")
-			switch (data, response, error) {
-			case (_, _, let error?): // connection error
-				completion(.failure(.connection(error)))
-			case (let data?, let response?, _):
-				let status = (response as? HTTPURLResponse)?.statusCode
-				if case (200..<300)? = status {
-					print(String(data: data, encoding: .utf8) ?? "<unable to decode>")
-					completion(.success(data))
-				} else if status == 401 {
-					print("unauthorized")
-					completion(.failure(.unauthorized))
-				} else {
-					if let response = String(data: data, encoding: .utf8) {
-						completion(.failure(.response(response)))
-					}
-				}
-			default:
-				fatalError("Invalid response combo \(data.debugDescription), \(response.debugDescription) \(error.debugDescription)")
-			}
-		}
-		task.resume()
-	}
-	
-	private func build (_ url: String, with parameters: [String: String]) -> URL? {
-		var components = URLComponents(string: url)
-		var items = [URLQueryItem]()
-		parameters.forEach { (key, value) in
-			let item = URLQueryItem(name: key, value: value)
-			items.append(item)
-		}
-		components?.queryItems = items
-		return components?.url
-	}
+    private func buildQueryString (from parameters: [String: String]) -> [URLQueryItem] {
+        return parameters.reduce(into: [URLQueryItem]()) { (result, obj) in
+            if let encoded = obj.value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                result.append(URLQueryItem(name: obj.key, value: encoded))
+            }
+        }
+    }
+}
+
+extension Skylark {
+    // MARK: - Errors
+    public enum Errors: Error {
+        case unauthorized
+        case connection(URLError)
+        case parse(DecodingError)
+        case api(String?)
+        case unknown(Error)
+        /// Error thrown when request body fails to be encoded
+        case request(Error)
+    }
+    
+    // MARK: - Types
+    public enum HTTPMethod: String {
+        case get, put, post, delete
+    }
+    
+    private typealias EncodedResult = Result<Data, Errors>
+    private typealias EncodedHandler = (EncodedResult) -> ()
+    public typealias SkyHandler<T: Decodable> = (Result<T, Errors>) -> ()
+}
+
+// MARK: - Publisher Extension
+extension AnyPublisher where Output == Data, Failure == Skylark.Errors {
+    @inlinable func decode<R: Decodable> (with decoder: JSONDecoder) -> APIPublisher<R> {
+        self.decode(type: R.self, decoder: decoder).mapError {
+            switch $0 {
+            case let skylarkErrors as Skylark.Errors:
+                return skylarkErrors
+            case let decodeError as DecodingError:
+                return Skylark.Errors.parse(decodeError)
+            default:
+                return Skylark.Errors.unknown($0)
+            }
+        }.eraseToAnyPublisher()
+    }
+}
+
+// MARK: - Environment Extension
+extension Skylark {
+    struct Key: EnvironmentKey {
+        static var defaultValue = Skylark()
+    }
+}
+
+extension EnvironmentValues {
+    var apiClient: Skylark {
+        get {
+            self[Skylark.Key.self]
+        }
+        set {
+            self[Skylark.Key.self] = newValue
+        }
+    }
 }
 
 // not really needed

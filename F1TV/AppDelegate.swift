@@ -20,13 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		do {
 			try audioSession.setCategory(.playback, mode: .moviePlayback)
 		} catch {
-			print(error.localizedDescription)
+			print("AVERROR",error.localizedDescription)
 		}
 		
 		// Use a UIHostingController as window root view controller.
 		let window = UIWindow(frame: UIScreen.main.bounds)
 		
-		window.rootViewController = UINavigationController(rootViewController: UIHostingController(rootView: LoginView()))
+		window.rootViewController = UIHostingController(rootView: StateView())
 		self.window = window
 		window.makeKeyAndVisible()
 		return true

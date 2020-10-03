@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TokenResponse: Decodable {
+public struct TokenResponse: Decodable {
 	enum CodingKeys: String, CodingKey {
 		case token, accessToken = "oauth2_access_token", urls = "plan_urls", vip = "user_is_vip"
 	}

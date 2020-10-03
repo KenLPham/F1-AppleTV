@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ChannelResponse: Decodable, Identifiable {
+public struct ChannelResponse: Decodable, Identifiable {
 	enum CodingKeys: String, CodingKey {
 		case driver = "driveroccurrence_urls", id = "uid", type = "channel_type", name, key = "self"
 	}
@@ -17,13 +17,13 @@ struct ChannelResponse: Decodable, Identifiable {
 	Path to driver information.
 	Example: /api/driver-occurrence/driv_9fc9eea9818f4f5fa88fa3daf5969732/
 	*/
-	let driver: [String]
-	let id: String
-	let type: String // driver, other (driver, pit lane, data), wif (main feed?)
-	let name: String
+    public let driver: [String]
+	public let id: String
+    public let type: String // driver, other (driver, pit lane, data), wif (main feed?)
+    public let name: String
 	/**
 	channel_url used to generate stream URL
 	Example: /api/channels/chan_f4305e0c5c2e4413a8d5e3e12d9628b8/
 	*/
-	let key: String
+    public let key: String
 }

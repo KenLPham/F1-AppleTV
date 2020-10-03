@@ -8,27 +8,27 @@
 
 import Foundation
 
-struct Credentials: Codable {
+public struct Credentials: Codable {
 	enum CodingKeys: String, CodingKey {
 		case email = "Login", password = "Password"
 	}
 	
-	var email: String
-	var password: String
+    public var email: String
+    public var password: String
 	
-	init () {
+    public init () {
 		self.email = ""
 		self.password = ""
 	}
 	
-	func challenge () -> URLCredential {
+    public func challenge () -> URLCredential {
 		URLCredential(user: email, password: password, persistence: .forSession)
 	}
 }
 
 #if DEBUG
 extension Credentials: CustomDebugStringConvertible {
-	var debugDescription: String {
+    public var debugDescription: String {
 		"""
 		{
 			"email": \(email),

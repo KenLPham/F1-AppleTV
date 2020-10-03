@@ -8,20 +8,20 @@
 
 import Foundation
 
-struct LiveResponse: Decodable {
-	let objects: [LiveObject]
+public struct LiveResponse: Decodable {
+	public let objects: [LiveObject]
 }
 
-struct LiveObject: Decodable {
-	let items: [LiveItem]
+public struct LiveObject: Decodable {
+	public let items: [LiveItem]
 }
 
-struct LiveItem: Decodable, Identifiable {
+public struct LiveItem: Decodable, Identifiable {
 	enum CodingKeys: String, CodingKey {
 		case content = "content_url", id = "uid", position
 	}
 	
-	let content: String
-	let id: String
-	let position: Int
+    public let content: String
+    public let id: String
+    public let position: Int
 }

@@ -7,56 +7,51 @@
 //
 
 import SwiftUI
-
-struct SignoutButton: View {
-	var action: () -> ()
-	
-	var body: some View {
-		Button(action: action) {
-			Text("Signout")
-		}
-	}
-}
+import Combine
 
 struct MenuView: View {
-	@Environment(\.presentationMode) var presentation
+    @Environment(\.appState) var appState
 	@Environment(\.authorized) var authorize
-	
-	@State var live: LiveResponse?
+    @StateObject var state = ViewState()
 	
     var body: some View {
 		VStack {
-			NavigationLink(destination: Lazy(SeasonsView())) {
-				Text("Archive")
-			}
-			Optional($live.wrappedValue) { response in
-				NavigationLink(destination: Lazy(LiveView(live: response))) {
-					Text("Race Weekend")
-				}
-			}
-		}.navigationBarTitle("F1TV").navigationBarItems(trailing: SignoutButton(action: signout)).onAppear(perform: load)
+            if let response = state.live {
+                NavigationLink("Race Weekend", destination: Lazy(LiveView(live: response)))
+            }
+            NavigationLink("Archive", destination: Lazy(SeasonsView()))
+            Button("Signout", action: signout)
+        }.navigationBarTitle("F1TV")/*.navigationBarItems(leading: Button("Signout", action: signout))*/.onAppear(perform: state.load)
     }
-	
-	private func load () {
-		Skylark.shared.getLive { result in
-			switch result {
-			case .success(let response):
-				DispatchQueue.main.async {
-					self.live = response
-				}
-			default: ()
-			}
-		}
-	}
 	
 	private func signout () {
 		authorize.store(nil)
-		presentation.wrappedValue.dismiss()
+        appState.option = .notAuthorized
 	}
 }
 
-struct MenuView_Previews: PreviewProvider {
-    static var previews: some View {
-        MenuView()
+extension MenuView {
+    class ViewState: ObservableObject {
+        @Environment(\.apiClient) var skylark
+        @Published var live: LiveResponse?
+        
+        var cancellables = [AnyCancellable]()
+        
+        func load () {
+            skylark.getLive().receive(on: DispatchQueue.main).sink {
+                switch $0 {
+                case .failure(let error):
+                    switch error {
+                    case .unauthorized:
+                        print("show unauthed alert")
+                    default:
+                        print("authenticate:", String(describing: error))
+                    }
+                case .finished: ()
+                }
+            } receiveValue: {
+                self.live = $0
+            }.store(in: &cancellables)
+        }
     }
 }

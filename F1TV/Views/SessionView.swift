@@ -7,43 +7,38 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SessionView: View {
+    @StateObject var state = ViewState()
 	var session: SessionResponse
-	@State var channels = [ChannelResponse]()
-	
-	var otherChannels: [ChannelResponse] {
-		channels.filter({ $0.type != "driver" })
-	}
-	
-	var driverChannels: [ChannelResponse] {
-		channels.filter({ $0.type == "driver" })
-	}
 	
     var body: some View {
 		List {
-			if !otherChannels.isEmpty {
+            if !state.otherChannels.isEmpty {
 				Section {
-					ForEach(otherChannels) { channel in
+                    ForEach(state.otherChannels) { channel in
 						NavigationLink(destination: Lazy(StreamView(channel: channel))) {
 							Text(self.parseName(channel))
 						}
 					}
 				}
 			}
-			if !driverChannels.isEmpty {
+            if !state.driverChannels.isEmpty {
 				Section(header: Text("Driver Feeds")) {
-					ForEach(driverChannels) { channel in
+                    ForEach(state.driverChannels) { channel in
 						NavigationLink(destination: Lazy(StreamView(channel: channel))) {
 							Text(self.parseName(channel))
 						}
 					}
 				}
 			}
-			if driverChannels.isEmpty && otherChannels.isEmpty {
+            if state.driverChannels.isEmpty && state.otherChannels.isEmpty {
 				Text("No Channels Available")
 			}
-		}.navigationBarTitle(session.sessionName).onAppear(perform: load)
+        }.navigationBarTitle(session.sessionName).onAppear {
+            state.load(session)
+        }
     }
 	
 	private func parseName (_ channel: ChannelResponse) -> String {
@@ -56,19 +51,41 @@ struct SessionView: View {
 			return "Main Feed"
 		}
 	}
-	
-	private func load () {
-		guard channels.isEmpty else { return }
-		session.channels.forEach { path in
-			Skylark.shared.getChannel(path) { result in
-				switch result {
-				case .success(let response):
-					DispatchQueue.main.async {
-						self.channels.append(response)
-					}
-				default: ()
-				}
-			}
-		}
-	}
+}
+
+extension SessionView {
+    class ViewState: ObservableObject {
+        @Environment(\.apiClient) var skylark
+        @Published var channels = [ChannelResponse]()
+        
+        var otherChannels: [ChannelResponse] {
+            channels.filter({ $0.type != "driver" })
+        }
+        
+        var driverChannels: [ChannelResponse] {
+            channels.filter({ $0.type == "driver" })
+        }
+        
+        var cancellables = [AnyCancellable]()
+        
+        func load (_ session: SessionResponse) {
+            guard channels.isEmpty else { return }
+            session.channels.forEach { path in
+                skylark.getChannel(path).receive(on: DispatchQueue.main).sink {
+                    switch $0 {
+                    case .failure(let error):
+                        switch error {
+                        case .unauthorized:
+                            print("show unauthed alert")
+                        default:
+                            print("authenticate:", String(describing: error))
+                        }
+                    case .finished: ()
+                    }
+                } receiveValue: {
+                    self.channels.append($0)
+                }.store(in: &cancellables)
+            }
+        }
+    }
 }
