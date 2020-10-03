@@ -15,11 +15,8 @@ struct LiveView: View {
     
     var body: some View {
 		List {
-            ForEach(state.events.sorted(by: { $0.date() < $1.date() })) { event in
-				NavigationLink(destination: Lazy(EventView(event: event))) {
-					Text(event.name).bold().font(.title)
-					Text(event.officialName).font(.subheadline).foregroundColor(Color(.secondaryLabel))
-				}
+            ForEach(state.events.sorted(by: { $0.date() < $1.date() })) {
+				EventLink(event: $0)
 			}
         }.navigationBarTitle("Race Weekend").onAppear {
             state.load(live)

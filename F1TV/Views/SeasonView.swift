@@ -15,11 +15,8 @@ struct SeasonView: View {
 	
     var body: some View {
 		List {
-            ForEach(state.events.sorted(by: { $0.date() < $1.date() })) { event in
-				NavigationLink(destination: Lazy(EventView(event: event))) {
-					Text(event.name).bold().font(.title2)
-					Text(event.officialName).font(.subheadline).foregroundColor(Color(.secondaryLabel))
-				}
+            ForEach(state.events.sorted(by: { $0.date() < $1.date() })) {
+                EventLink(event: $0)
 			}
         }.navigationBarTitle(season.name).onAppear {
             state.load(season)
