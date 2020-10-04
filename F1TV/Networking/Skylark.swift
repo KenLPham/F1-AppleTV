@@ -65,7 +65,8 @@ public class Skylark: NSObject {
     public func getSeasons () -> APIPublisher<SeasonsResponse> {
 		let parameters = [
 			"fields": "name,has_content,eventoccurrence_urls,schedule_urls,uid",
-			"order": "-year"
+			"order": "-year",
+            "year__gt": "2017" // greater than = gt, less than = lt, equal = "year": "2017"
 		]
         return request(.get, path: "/api/race-season", parameters: parameters).decode(with: decoder)
 	}
