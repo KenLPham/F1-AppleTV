@@ -37,7 +37,8 @@ public class Skylark: NSObject {
 		let config = URLSessionConfiguration.default
 		config.httpAdditionalHeaders = [
 			"apiKey": "fCUCjWrKPu9ylJwRAv8BpGLEgiAuThx7",
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+            "User-Agent": "RaceControl F1TV for AppleTV" // they're checking User-Agent for "RaceControl" ...
 		]
 		
 		self.session = URLSession(configuration: config, delegate: self, delegateQueue: OperationQueue())
