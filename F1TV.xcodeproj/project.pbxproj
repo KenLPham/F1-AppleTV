@@ -10,6 +10,8 @@
 		375D04F92529077000127305 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 375D04F82529076F00127305 /* README.md */; };
 		375D04FC25290CDA00127305 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D04FB25290CDA00127305 /* StateView.swift */; };
 		375D050125293C2100127305 /* EventLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D050025293C2100127305 /* EventLink.swift */; };
+		375D05052529952B00127305 /* DirectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D05042529952B00127305 /* DirectorView.swift */; };
+		375D050C25299F8000127305 /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D050B25299F8000127305 /* SetupView.swift */; };
 		4A6B5CF124AE60CA004172A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF024AE60CA004172A8 /* AppDelegate.swift */; };
 		4A6B5CF524AE60CD004172A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF424AE60CD004172A8 /* Assets.xcassets */; };
 		4A6B5CF824AE60CD004172A8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6B5CF724AE60CD004172A8 /* Preview Assets.xcassets */; };
@@ -36,7 +38,6 @@
 		4A6B5D3024AEBC08004172A8 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D2F24AEBC08004172A8 /* MenuView.swift */; };
 		4A6B5D3524AEC553004172A8 /* LiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3424AEC553004172A8 /* LiveResponse.swift */; };
 		4A6B5D3724AEC695004172A8 /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3624AEC695004172A8 /* LiveView.swift */; };
-		4A6B5D3A24AEC778004172A8 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B5D3924AEC778004172A8 /* Optional.swift */; };
 		4A6BB87A250590F200E9695B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 4A6BB879250590F200E9695B /* KeychainAccess */; };
 		4A6BB87D2505913D00E9695B /* SwiftyHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 4A6BB87C2505913D00E9695B /* SwiftyHelper */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,8 @@
 		375D04F82529076F00127305 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		375D04FB25290CDA00127305 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		375D050025293C2100127305 /* EventLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLink.swift; sourceTree = "<group>"; };
+		375D05042529952B00127305 /* DirectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectorView.swift; sourceTree = "<group>"; };
+		375D050B25299F8000127305 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		4A6B5CED24AE60CA004172A8 /* F1TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = F1TV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A6B5CF024AE60CA004172A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A6B5CF424AE60CD004172A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -73,7 +76,6 @@
 		4A6B5D2F24AEBC08004172A8 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		4A6B5D3424AEC553004172A8 /* LiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResponse.swift; sourceTree = "<group>"; };
 		4A6B5D3624AEC695004172A8 /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
-		4A6B5D3924AEC778004172A8 /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
 		4A6BB87E250595A700E9695B /* F1TV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = F1TV.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		375D0507252995E100127305 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				375D05042529952B00127305 /* DirectorView.swift */,
+				4A6B5D2424AEA2D3004172A8 /* StreamView.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
+		375D05092529960000127305 /* Representables */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */,
+			);
+			path = Representables;
+			sourceTree = "<group>";
+		};
+		375D050A25299F6300127305 /* Director */ = {
+			isa = PBXGroup;
+			children = (
+				375D050B25299F8000127305 /* SetupView.swift */,
+			);
+			path = Director;
+			sourceTree = "<group>";
+		};
 		4A6B5CE424AE60CA004172A8 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +161,9 @@
 		4A6B5D0224AE613F004172A8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				375D050A25299F6300127305 /* Director */,
+				375D05092529960000127305 /* Representables */,
+				375D0507252995E100127305 /* Video */,
 				4A6B5D3824AEC769004172A8 /* Components */,
 				4A6B5D2A24AEA91F004172A8 /* Environment */,
 				4A6B5D0324AE6146004172A8 /* Authentication */,
@@ -141,9 +171,6 @@
 				4A6B5D1824AE85E8004172A8 /* SeasonView.swift */,
 				4A6B5D1C24AE8A60004172A8 /* EventView.swift */,
 				4A6B5D2024AE9680004172A8 /* SessionView.swift */,
-				4A6B5D2424AEA2D3004172A8 /* StreamView.swift */,
-				4A6B5D2D24AEB00C004172A8 /* AVPlayerRepresentable.swift */,
-				4A6B5D2F24AEBC08004172A8 /* MenuView.swift */,
 				4A6B5D3624AEC695004172A8 /* LiveView.swift */,
 			);
 			path = Views;
@@ -152,6 +179,7 @@
 		4A6B5D0324AE6146004172A8 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				4A6B5D2F24AEBC08004172A8 /* MenuView.swift */,
 				4A6B5D0424AE6170004172A8 /* LoginView.swift */,
 				375D04FB25290CDA00127305 /* StateView.swift */,
 			);
@@ -211,7 +239,6 @@
 		4A6B5D3824AEC769004172A8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				4A6B5D3924AEC778004172A8 /* Optional.swift */,
 				375D050025293C2100127305 /* EventLink.swift */,
 			);
 			path = Components;
@@ -298,11 +325,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A6B5D2E24AEB00C004172A8 /* AVPlayerRepresentable.swift in Sources */,
+				375D05052529952B00127305 /* DirectorView.swift in Sources */,
 				4A6B5D2324AEA130004172A8 /* ChannelResponse.swift in Sources */,
 				375D04FC25290CDA00127305 /* StateView.swift in Sources */,
 				4A6B5D0524AE6170004172A8 /* LoginView.swift in Sources */,
 				4A6B5D2524AEA2D3004172A8 /* StreamView.swift in Sources */,
 				4A6B5D3524AEC553004172A8 /* LiveResponse.swift in Sources */,
+				375D050C25299F8000127305 /* SetupView.swift in Sources */,
 				4A6B5D1524AE825C004172A8 /* SeasonsResponse.swift in Sources */,
 				4A6B5D3724AEC695004172A8 /* LiveView.swift in Sources */,
 				4A6B5D2924AEA8A9004172A8 /* StreamResponse.swift in Sources */,
@@ -322,7 +351,6 @@
 				4A6B5D1324AE7212004172A8 /* TokenResponse.swift in Sources */,
 				4A6B5CF124AE60CA004172A8 /* AppDelegate.swift in Sources */,
 				4A6B5D1724AE834A004172A8 /* SeasonsView.swift in Sources */,
-				4A6B5D3A24AEC778004172A8 /* Optional.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,7 +490,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"F1TV/Preview Content\"";
-				DEVELOPMENT_TEAM = FS7843V9B7;
+				DEVELOPMENT_TEAM = 59C76NMBX3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = F1TV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -487,7 +515,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"F1TV/Preview Content\"";
-				DEVELOPMENT_TEAM = FS7843V9B7;
+				DEVELOPMENT_TEAM = 59C76NMBX3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = F1TV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

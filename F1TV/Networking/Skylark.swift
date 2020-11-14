@@ -36,6 +36,7 @@ public class Skylark: NSObject {
 		
 		let config = URLSessionConfiguration.default
 		config.httpAdditionalHeaders = [
+            // from dotd voting: apiKey=qPgPPRJyGCIPxFT3el4MF7thXHyJCzAP
 			"apiKey": "fCUCjWrKPu9ylJwRAv8BpGLEgiAuThx7",
 			"Content-Type": "application/json",
             "User-Agent": "RaceControl F1TV for AppleTV" // they're checking User-Agent for "RaceControl" ...

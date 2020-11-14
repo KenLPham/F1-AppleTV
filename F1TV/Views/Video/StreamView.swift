@@ -12,6 +12,7 @@ import Combine
 
 struct StreamView: View {
     @StateObject var state = ViewState()
+    
 	var channel: ChannelResponse
 	
 	/// - TODO: figure out how to keep stream time the same when switching between streams (once we get to that)
