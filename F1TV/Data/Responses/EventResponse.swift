@@ -10,7 +10,7 @@ import Foundation
 
 public struct EventResponse: Decodable, Identifiable {
 	enum CodingKeys: String, CodingKey {
-		case images = "image_urls", sessions = "sessionoccurrence_urls", id = "uid", name, officialName = "official_name", startDate = "start_date"
+		case images = "image_urls", sessions = "sessionoccurrence_urls", id = "uid", name, officialName = "official_name", dateString = "start_date"
 	}
 	
     public let images: [String]
@@ -18,10 +18,10 @@ public struct EventResponse: Decodable, Identifiable {
     public let id: String
     public let name: String
     public let officialName: String
-    public let startDate: String
+    public let dateString: String
 	
-	func date () -> Date {
-		DateFormatter.dependecy().formatShort(startDate)!
+    public var startDate: Date {
+        DateFormatter.dependecy().formatShort(dateString)!
 	}
 }
 

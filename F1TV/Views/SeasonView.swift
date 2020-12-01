@@ -15,7 +15,7 @@ struct SeasonView: View {
 	
     var body: some View {
 		List {
-            ForEach(state.events.sorted(by: { $0.date() < $1.date() })) {
+            ForEach(state.events.sorted(by: { $0.startDate < $1.startDate })) {
                 EventLink(event: $0)
 			}
         }.navigationBarTitle(season.name).onAppear {
