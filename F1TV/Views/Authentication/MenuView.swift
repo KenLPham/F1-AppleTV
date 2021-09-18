@@ -15,13 +15,22 @@ struct MenuView: View {
     @StateObject var state = ViewState()
 	
     var body: some View {
-		VStack {
+        
+		TabView {
+            
             if let response = state.live {
-                NavigationLink("Race Weekend", destination: Lazy(LiveView(live: response)))
+                LiveView(live: response)
+                    .tabItem { Label("Race Weekend", systemImage: "video.fill") }
             }
-            NavigationLink("Archive", destination: Lazy(SeasonsView()))
+            
+            SeasonsView()
+                .tabItem { Label("Archive", systemImage: "archivebox.fill") }
+            
             Button("Signout", action: signout)
+                .tabItem { Label("Signout", systemImage: "person.crop.circle.badge.minus") }
+            
         }.navigationBarTitle("F1TV")/*.navigationBarItems(leading: Button("Signout", action: signout))*/.onAppear(perform: state.load)
+        
     }
 	
 	private func signout () {
