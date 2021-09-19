@@ -24,6 +24,14 @@ public struct Credentials: Codable {
     public func challenge () -> URLCredential {
 		URLCredential(user: email, password: password, persistence: .forSession)
 	}
+    
+    public var isComplete: Bool {
+        !email.isEmpty && !password.isEmpty
+    }
+    
+    public func encode () -> Data? {
+        try? JSONEncoder().encode(self)
+    }
 }
 
 #if DEBUG

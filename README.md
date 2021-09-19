@@ -1,23 +1,27 @@
-# F1-AppleTV
+# F1TV for Apple TV
 
 [![Twitter](https://img.shields.io/twitter/follow/kenlpham?label=Ken%20Pham&style=social)](https://twitter.com/kenlpham)
 
 ## Description
 
-Barebones F1TV app for the Apple TV (tvOS >= 14.0)
+F1TV app for the Apple TV (tvOS >= 14.0)
 
 ## Requirements
 
-- A Mac with Xcode
+- A Mac with Xcode 13.0
 - An Apple TV running tvOS >= 14.0
 
 ## Installation
 
-Use Xcode to upload the app to your AppleTV
+1. On the Apple TV, navigate to Settings > Remotes and Devices > Remote App and Devices
+2. In Xcode, navigate to Window > Devices and Simulators. You should see your Apple TV in the Discovered list on the left
+3. Click on the Apple TV icon in Devices panel and enter the Pairing Code that is displayed on the Apple TV
+4. Set the device target to the Apple TV
+5. Run the app
 
-## Goal
+## Screenshots
 
-https://f1tv-images.formula1.com/media/images/stills/slide/37/7fd1f780e8e3c2e4029e191baa34e737-1676x920.png
+![Home Page](/Images/1.png)
 
 ## Attribution
 
