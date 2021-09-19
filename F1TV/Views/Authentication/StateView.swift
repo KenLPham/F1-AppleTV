@@ -9,15 +9,17 @@
 import SwiftUI
 
 struct LoadView: View {
-    @Environment(\.appState) var appState
     @Environment(\.authorized) var authorize
     
     var body: some View {
-        Text("F1TV").onAppear(perform: validate)
+        VStack {
+            Image("Logo")
+            Text("Unofficial App").font(.subheadline)
+        }.frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.primaryColor).ignoresSafeArea().onAppear(perform: validate)
     }
     
     private func validate () {
-        appState.option = authorize.credentials == nil ? .notAuthorized : .authorized
+        authorize.authenticate()
     }
 }
 
@@ -31,7 +33,7 @@ struct StateView: View {
                 switch nav {
                 case .authorized:
                     NavigationView {
-                        MenuView()
+                        ContentView()
                     }
                 case .notAuthorized:
                     NavigationView {
@@ -43,7 +45,7 @@ struct StateView: View {
             }
         }.onReceive(appState.$option) {
             self.navigator = $0
-        }
+        }.background(Color.backgroundColor.ignoresSafeArea())
     }
 }
 

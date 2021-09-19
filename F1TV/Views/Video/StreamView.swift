@@ -9,65 +9,25 @@
 import AVKit
 import SwiftUI
 import Combine
+import Kingfisher
 
 struct StreamView: View {
-    @StateObject var state = ViewState()
+    @ObservedObject var viewModel: StreamViewModel
     
-	var channel: ChannelResponse
+    /// - TODO: this should probably just be the screen size
+    let width: CGFloat = 3840
+    let height: CGFloat = 2160
 	
 	/// - TODO: figure out how to keep stream time the same when switching between streams (once we get to that)
     var body: some View {
-        Group {
-            if let player = state.player {
-                AVPlayerControllerRepresentable(player: player)
-            }
-        }.edgesIgnoringSafeArea(.all).onAppear {
-            state.load(channel.key)
-        }.onDisappear {
-            state.playing = false
-        }
-    }
-}
-
-extension StreamView {
-    class ViewState: ObservableObject {
-        @Environment(\.apiClient) var skylark
-        @Published var player: AVPlayer?
-        
-        @Published var playing = false {
-            didSet {
-                UIApplication.shared.isIdleTimerDisabled = self.playing
-                if self.playing {
-                    player?.playImmediately(atRate: 1)
+        VStack {
+            Group {
+                if let player = viewModel.player {
+                    AVPlayerControllerRepresentable(player: player, overlay: Lazy(AdditionalStreamView(viewModel: viewModel)))
                 } else {
-                    player?.pause()
+                    KFImage(viewModel.content.pictureUrl(width: width, height: height)).resizable().scaledToFill()
                 }
-            }
-        }
-        
-        var cancellables = [AnyCancellable]()
-        
-        func load (_ key: String) {
-            guard player == nil else {
-                self.playing = true
-                return
-            }
-            
-            skylark.loadStream(from: key).map(\.url).receive(on: DispatchQueue.main).sink {
-                switch $0 {
-                case .failure(let error):
-                    switch error {
-                    case .unauthorized:
-                        print("show unauthed alert")
-                    default:
-                        print("authenticate:", String(describing: error))
-                    }
-                case .finished: ()
-                }
-            } receiveValue: {
-                self.player = AVPlayer(url: $0)
-                self.playing = true
-            }.store(in: &cancellables)
-        }
+            }.ignoresSafeArea()
+        }.onAppear(perform: viewModel.load)
     }
 }

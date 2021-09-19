@@ -8,30 +8,67 @@
 
 import SwiftUI
 import KeychainAccess
+import Combine
+import os
 
 extension Data {
 	func decode<T: Decodable> (to type: T.Type) -> T? {
-		try? JSONDecoder.dependency().decode(type, from: self)
+		try? JSONDecoder().decode(type, from: self)
 	}
 }
 
 class AuthorizedObject: ObservableObject {
+    @Environment(\.apiClient) var apiClient
+    @Environment(\.appState) var appState
+    
 	private var keychain = Keychain(service: "com.kpham.auth")
+    private static let credentialsKey = "credentials"
 	
-	@Published var credentials: AuthenticationResponse?
+	@Published var session: AuthenticationResponse?
 	
-	init () {
-		self.credentials = try? keychain.getData("credentials")?.decode(to: AuthenticationResponse.self)
-	}
-	
-	func store (_ credentials: AuthenticationResponse?) {
-		self.credentials = credentials
-		if let data = credentials?.encode() {
-			try? keychain.set(data, key: "credentials")
-		} else {
-			try? keychain.remove("credentials")
-		}
-	}
+    private var cancellables = [AnyCancellable]()
+    
+    func authenticate () {
+        if let credentials = try? keychain.getData(AuthorizedObject.credentialsKey)?.decode(to: Credentials.self) {
+            self.tryCredentials(credentials, errorHandler: errorHandler)
+        } else {
+            DispatchQueue.main.async {
+                self.appState.option = .notAuthorized
+            }
+        }
+    }
+    
+    func tryCredentials (_ credentials: Credentials, errorHandler: @escaping (Lite.Errors) -> ()) {
+        apiClient.authenticate(with: credentials).handleErrors(errorHandler).receive(on: DispatchQueue.main).sink { response in
+            self.store(credentials)
+            self.session = response
+            self.appState.option = .authorized
+        }.store(in: &cancellables)
+    }
+    
+    func errorHandler (_ error: Lite.Errors) {
+        self.handleErrors(error)
+        self.signOut()
+    }
+    
+    func signOut () {
+        self.store(nil)
+        appState.option = .notAuthorized
+    }
+    
+    func store (_ credentials: Credentials?) {
+        do {
+            if let data = credentials?.encode() {
+                Logger.auth.info("[\(self.className)] Stored credentials")
+                try keychain.set(data, key: AuthorizedObject.credentialsKey)
+            } else {
+                Logger.auth.info("[\(self.className)] Removing stored credentials")
+                try keychain.remove("credentials")
+            }
+        } catch {
+            Logger.auth.error("[\(self.className)] Failed to update credentials \(credentials?.email ?? "", privacy: .private) with error: \(String(describing: error))")
+        }
+    }
 }
 
 struct AuthorizedKey: EnvironmentKey {
