@@ -113,6 +113,10 @@ class StreamViewModel: ObservableObject {
             player.pause()
             item.seek(to: player.currentTime()) { _ in
                 player.replaceCurrentItem(with: item)
+                // - TODO: this seems to be necessary on tvOS 15, make sure switching still works on tvOS 14 without this
+                if #available(tvOS 15.0, *) {
+                    player.playImmediately(atRate: 1.0)                    
+                }
             }
         } else {
             self.player = AVPlayer(playerItem: item)
