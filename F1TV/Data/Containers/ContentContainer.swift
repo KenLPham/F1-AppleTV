@@ -22,6 +22,6 @@ extension ContentContainer {
     }
     
     func pictureUrl (width: CGFloat, height: CGFloat) -> URL? {
-        return URL(string: "https://ott.formula1.com/image-resizer/image/\(metadata.pictureUrl)?w=\(width)&h=\(height)&q=HI&o=L")
+        return URL(string: "https://f1tv.formula1.com/image-resizer/image/\(metadata.pictureUrl)?w=\(width)&h=\(height)&q=HI&o=L")
     }
 }
