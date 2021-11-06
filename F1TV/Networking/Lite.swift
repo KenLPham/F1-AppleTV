@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import os
 
 public typealias APIPublisher<R: Decodable> = AnyPublisher<R, Lite.Errors>
 
@@ -49,7 +50,8 @@ public class Lite: NSObject {
             "apiKey": "fCUCjWrKPu9ylJwRAv8BpGLEgiAuThx7",
             "Content-Type": "application/json",
             // they're checking User-Agent for "RaceControl" ...
-            "User-Agent": "RaceControl F1TV for AppleTV"
+            // "Darwin/21.1.0" Fixes Livestreams ... (https://github.com/NoahFetz/F1AppleTV/blob/master/F1A-TV/Networking/DataManager.swift)
+            "User-Agent": "RaceControl Darwin/21.1.0"
         ]
         
         self.session = URLSession(configuration: config, delegate: self, delegateQueue: OperationQueue())
@@ -103,11 +105,11 @@ extension Lite {
     }
     
     func getPlaybackUrl (format: StreamType, id contentId: String) -> AnyPublisher<APIResponse<PlaybackResultObject>, Errors> {
-        self.request(.get, path: "/1.0/R/ENG/\(format.hls)/ALL/CONTENT/PLAY", parameters: [ "contentId": contentId ], token: authorize.session?.data.token).decode(with: decoder)
+        self.request(.get, path: "/2.0/R/ENG/\(format.hls)/ALL/CONTENT/PLAY", parameters: [ "contentId": contentId ], token: authorize.session?.data.token).decode(with: decoder)
     }
     
     func getPerspectivePlaybackUrl (format: StreamType, path: String) -> AnyPublisher<APIResponse<PlaybackResultObject>, Errors> {
-        self.request(.get, path: "/1.0/R/ENG/\(format.hls)/ALL/\(path)", token: authorize.session?.data.token).decode(with: decoder)
+        self.request(.get, path: "/2.0/R/ENG/\(format.hls)/ALL/\(path)", token: authorize.session?.data.token).decode(with: decoder)
     }
 }
 
@@ -149,9 +151,11 @@ extension Lite {
         guard let url = components?.url else { fatalError("Invalid URL") }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        
+
+        if let sessionId = authorize.session?.session {
+            request.setValue(sessionId, forHTTPHeaderField: "entitlementtoken")
+        }
         if let t = token {
-            print("token", t)
             request.setValue(t, forHTTPHeaderField: "ascendontoken")
         }
         
@@ -159,13 +163,13 @@ extension Lite {
     }
     
     private func runTask (with request: URLRequest) -> AnyPublisher<Data, Errors> {
-        print("[\(request.httpMethod ?? "<error>")] \(request.url?.absoluteString ?? "<error>")")
+        Logger.apiClient.debug("[\(request.httpMethod ?? "<error>")] \(request.url?.absoluteString ?? "<error>")")
         
         return session.dataTaskPublisher(for: request).tryMap { result in
             let statusCode = (result.response as? HTTPURLResponse)?.statusCode
             
             // MARK: DEBUGGING
-            print("response [\(statusCode ?? -1)]: \(String(data: result.data, encoding: .utf8) ?? "<nil>")")
+            Logger.apiClient.debug("response [\(statusCode ?? -1)]: \(String(data: result.data, encoding: .utf8) ?? "<nil>")") // \(String(data: result.data, encoding: .utf8) ?? "<nil>")
             
             if case (200..<300)? = statusCode {
                 return result.data
