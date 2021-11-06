@@ -1,0 +1,20 @@
+name: Build Release
+on:
+  push:
+    tags:
+      - "*.*.*"
+jobs:
+  build:
+    name: Build and Release
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v1
+      - name: Archive
+        run: /usr/bin/xcodebuild -project F1TV.xcodeproj -scheme F1TV -configuration Release clean archive -archivePath "build/F1TV.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+      - name: Build IPA
+        run: ./.github/scripts/export_ipa.sh
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: F1TV.ipa

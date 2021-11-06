@@ -42,7 +42,6 @@
 		375B69C126D9D461008521B5 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375B69C026D9D461008521B5 /* BannerView.swift */; };
 		375B69C326D9DC49008521B5 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375B69C226D9DC49008521B5 /* ScheduleView.swift */; };
 		375B69C526D9E62E008521B5 /* ScheduleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375B69C426D9E62E008521B5 /* ScheduleMetadata.swift */; };
-		375D04F92529077000127305 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 375D04F82529076F00127305 /* README.md */; };
 		375D04FC25290CDA00127305 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D04FB25290CDA00127305 /* StateView.swift */; };
 		375D05052529952B00127305 /* DirectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D05042529952B00127305 /* DirectorView.swift */; };
 		375D050C25299F8000127305 /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375D050B25299F8000127305 /* SetupView.swift */; };
@@ -463,7 +462,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A6B5CFB24AE60CD004172A8 /* LaunchScreen.storyboard in Resources */,
-				375D04F92529077000127305 /* README.md in Resources */,
 				4A6B5CF524AE60CD004172A8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -661,7 +659,7 @@
 				CODE_SIGN_ENTITLEMENTS = F1TV/F1TV.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"F1TV/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 59C76NMBX3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = F1TV/Info.plist;
@@ -686,7 +684,7 @@
 				CODE_SIGN_ENTITLEMENTS = F1TV/F1TV.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"F1TV/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 59C76NMBX3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = F1TV/Info.plist;
