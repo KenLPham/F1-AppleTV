@@ -83,7 +83,7 @@ class StreamViewModel: ObservableObject {
         let asset = AVURLAsset(url: playbackUrl)
         let item = AVPlayerItem(asset: asset)
         
-        /// - TODO: figure out why the cfx channel is the only one that doesn't use the title...
+        // - TODO: figure out why the cfx channel is the only one that doesn't use the title...
         // set default audio channel to english (original default is FX)
         if let audioGroup = asset.mediaSelectionGroup(forMediaCharacteristic: .audible) {
             item.select(AVMediaSelectionGroup.mediaSelectionOptions(from: audioGroup.options, with: Locale(identifier: "eng")).first, in: audioGroup)

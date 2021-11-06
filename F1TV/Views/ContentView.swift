@@ -19,6 +19,7 @@ struct ContentView: View {
             }
             PageView(viewModel: viewModel)
         }.onAppear(perform: viewModel.load)
+        // - TODO: on enter foreground reload data
     }
 }
 
